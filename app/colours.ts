@@ -8,12 +8,11 @@ type ColourScheme = {
 
 export default function useColours(): ColourScheme {
   const scheme = useColorScheme();
-  console.log(scheme);
 
   const colours: ColourScheme = {
     primary: "#007BFF",
-    foreground: scheme === "dark" ? "#F5F5F5" : "#1C1C1C",
-    background: scheme === "dark" ? "#1C1C1C" : "#F5F5F5",
+    foreground: scheme === "dark" ? "#F5F5F5" : "#111111",
+    background: scheme === "dark" ? "#111111" : "#F5F5F5",
   };
 
   return colours;
