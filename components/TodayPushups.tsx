@@ -8,7 +8,7 @@ export default function TodayPushups() {
   const [fontsLoaded] = useFonts({
     ZenDots: require("../assets/fonts/ZenDots.ttf"),
   });
-  let count = 19;
+  let count = 18;
 
   if (!fontsLoaded) {
     return <Text>Loading fonts...</Text>;
@@ -38,7 +38,17 @@ export default function TodayPushups() {
       fontFamily: "ZenDots",
       color: colours.foreground,
       textShadowColor: colours.foreground,
-      textShadowRadius: 15,
+      textShadowRadius: 3,
+    },
+    emboss: {
+      fontSize: numberFontSize,
+      fontFamily: "ZenDots",
+      // color: colours.foreground + "00",
+      position: "absolute",
+      left: 3,
+      top: 3,
+      textShadowColor: colours.foreground,
+      textShadowRadius: 10,
       opacity: 0.8,
     },
   });
@@ -47,10 +57,10 @@ export default function TodayPushups() {
     <Card>
       <View style={styles.container}>
         <View style={{ position: "relative" }}>
-          <Text style={[styles.number, { position: "absolute" }]}>{count}</Text>
+          <Text style={styles.emboss}>{count}</Text>
           <Text style={styles.number}>{count}</Text>
         </View>
-        <View style={{}}>
+        <View>
           <Text style={styles.text}>pushups</Text>
           <Text style={styles.text}>today</Text>
         </View>
