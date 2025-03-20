@@ -1,7 +1,7 @@
 import { Text, View, StyleSheet } from "react-native";
-import useColours from "./colours";
-import { Link } from "expo-router";
+import useColours from "../colours";
 import { useFonts } from "expo-font";
+import TodayPushups from "../components/TodayPushups";
 
 export default function Index() {
   const colours = useColours();
@@ -16,12 +16,14 @@ export default function Index() {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
+      rowGap: 20,
       backgroundColor: colours.background,
     },
     title: {
       fontSize: 24,
       fontFamily: "ZenDots",
       color: colours.foreground,
+      marginBottom: 10,
     },
     text: {
       color: colours.foreground,
@@ -32,9 +34,7 @@ export default function Index() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>NEXT PUSHUP</Text>
-      <Link href="/history">
-        <Text style={styles.text}>View your history</Text>
-      </Link>
+      <TodayPushups />
     </View>
   );
 }

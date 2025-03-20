@@ -4,6 +4,7 @@ type ColourScheme = {
   primary: string;
   foreground: string;
   background: string;
+  alt_background: string;
 };
 
 export default function useColours(): ColourScheme {
@@ -13,6 +14,7 @@ export default function useColours(): ColourScheme {
     primary: "#007BFF",
     foreground: scheme === "dark" ? "#F5F5F5" : "#111111",
     background: scheme === "dark" ? "#111111" : "#F5F5F5",
+    alt_background: scheme === "dark" ? "#222222" : "#F9F9F9",
   };
 
   return colours;
