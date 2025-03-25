@@ -2,6 +2,7 @@ import { Text, View, StyleSheet, useWindowDimensions } from "react-native";
 import useColours from "../colours";
 import { useFonts } from "expo-font";
 import Card from "./Card";
+import StatNumber from "./StatNumber";
 
 export default function TodayPushups() {
   const colours = useColours();
@@ -57,8 +58,10 @@ export default function TodayPushups() {
     <Card>
       <View style={styles.container}>
         <View style={{ position: "relative" }}>
-          <Text style={styles.emboss}>{count}</Text>
-          <Text style={styles.number}>{count}</Text>
+          {/* <Text style={styles.emboss}>{count}</Text>
+          <Text style={styles.number}>{count}</Text> */}
+          <StatNumber style={styles.emboss} targetValue={count} />
+          <StatNumber style={styles.number} targetValue={count} />
         </View>
         <View>
           <Text style={styles.text}>pushups</Text>

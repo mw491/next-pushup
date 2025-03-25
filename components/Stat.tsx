@@ -1,6 +1,7 @@
 import { Text, View, StyleSheet } from "react-native";
 import useColours from "../colours";
 import Card from "./Card";
+import StatNumber from "./StatNumber";
 
 type Props = {
   label: string;
@@ -46,9 +47,10 @@ export default function Stat({ label, value }: Props) {
           {/* <Text style={styles.emboss} adjustsFontSizeToFit numberOfLines={1}>
             {value}
           </Text> */}
-          <Text style={styles.value} adjustsFontSizeToFit numberOfLines={1}>
+          <StatNumber style={styles.value} targetValue={value} />
+          {/* <Text style={styles.value} adjustsFontSizeToFit numberOfLines={1}>
             {value}
-          </Text>
+          </Text> */}
         </View>
         <Text style={styles.text}>{label}</Text>
       </View>
