@@ -1,26 +1,71 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Tabs } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
+import { Animated, ViewStyle } from "react-native";
 import TabBarComponent from "../TabBarComponent";
 import useColours from "../../colours";
+
+interface AnimatedTabIconProps {
+  name: React.ComponentProps<typeof Ionicons>["name"];
+  color: string;
+  focused: boolean;
+  style?: ViewStyle;
+}
+
+const AnimatedTabIcon = ({
+  name,
+  color,
+  focused,
+  style,
+}: AnimatedTabIconProps) => {
+  const animatedScale = React.useRef(
+    new Animated.Value(focused ? 1.1 : 0.9)
+  ).current;
+  const animatedOpacity = React.useRef(
+    new Animated.Value(focused ? 1 : 0.5)
+  ).current;
+
+  useEffect(() => {
+    Animated.parallel([
+      Animated.spring(animatedScale, {
+        toValue: focused ? 1.2 : 1,
+        useNativeDriver: true,
+        tension: 50,
+        friction: 7,
+      }),
+      Animated.timing(animatedOpacity, {
+        toValue: focused ? 1 : 0.8,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, [focused]);
+
+  return (
+    <Animated.View
+      style={{
+        transform: [{ scale: animatedScale }],
+        opacity: animatedOpacity,
+        ...style,
+      }}
+    >
+      <Ionicons name={name} size={24} color={color} />
+    </Animated.View>
+  );
+};
 
 export default function TabLayout() {
   const colours = useColours();
   return (
     <>
-      <StatusBar
-        style={colours.scheme == "dark" ? "light" : "dark"}
-        backgroundColor={colours.background}
-      />
+      <StatusBar style={colours.scheme == "dark" ? "light" : "dark"} />
       <Tabs
         screenOptions={{
           headerShown: false,
           tabBarStyle: {
             backgroundColor: colours.background,
           },
-          tabBarActiveTintColor: colours.primary,
-          tabBarInactiveTintColor: colours.foreground,
         }}
         tabBar={(props) => <TabBarComponent {...props} />}
       >
@@ -28,32 +73,21 @@ export default function TabLayout() {
           name="index"
           options={{
             tabBarIcon: ({ color, focused }) => (
-              <Ionicons
-                name="home"
-                size={24}
-                color={color}
-                style={{
-                  transform: [{ scale: focused ? 1.2 : 1 }],
-                  opacity: focused ? 1 : 0.8,
-                }}
-              />
+              <AnimatedTabIcon name="home" color={color} focused={focused} />
             ),
           }}
         />
         <Tabs.Screen
           name="add"
           options={{
-            tabBarIcon: ({ color, focused }) => (
-              <Ionicons
+            tabBarIcon: ({ focused }) => (
+              <AnimatedTabIcon
                 name="add"
-                size={24}
-                color={color}
+                color={colours.background}
+                focused={focused}
                 style={{
-                  transform: [{ scale: focused ? 1.2 : 1 }],
-                  color: colours.background,
                   backgroundColor: colours.foreground,
                   borderRadius: 100,
-                  opacity: focused ? 1 : 0.8,
                   padding: 10,
                 }}
               />
@@ -64,15 +98,7 @@ export default function TabLayout() {
           name="history"
           options={{
             tabBarIcon: ({ color, focused }) => (
-              <Ionicons
-                name="list"
-                size={24}
-                color={color}
-                style={{
-                  transform: [{ scale: focused ? 1.2 : 1 }],
-                  opacity: focused ? 1 : 0.8,
-                }}
-              />
+              <AnimatedTabIcon name="list" color={color} focused={focused} />
             ),
           }}
         />
