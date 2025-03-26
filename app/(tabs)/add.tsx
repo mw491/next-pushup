@@ -3,7 +3,7 @@ import useColours from "../../colours";
 import { useState } from "react";
 
 export default function AddPushup() {
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(0);
   const colours = useColours();
 
   const styles = StyleSheet.create({
@@ -39,10 +39,9 @@ export default function AddPushup() {
     buttonContainer: {
       borderRadius: 100,
       overflow: "hidden",
-      backgroundColor: colours.alt_background,
     },
     buttonSave: {
-      backgroundColor: colours.foreground,
+      backgroundColor: count > 0 ? colours.foreground : colours.alt_background,
       alignItems: "center",
       justifyContent: "center",
       padding: 15,
@@ -68,7 +67,8 @@ export default function AddPushup() {
       textAlign: "center",
     },
     textSave: {
-      color: colours.background,
+      color: count > 0 ? colours.background : colours.foreground,
+      opacity: count == 0 ? 0.5 : 1,
       fontFamily: "ZenDots",
       fontSize: 24,
       overflow: "hidden",
@@ -110,7 +110,7 @@ export default function AddPushup() {
                 color: colours.background,
               }}
               onPress={() => {
-                if (count > 1) {
+                if (count > 0) {
                   setCount(count - 1);
                 }
               }}
