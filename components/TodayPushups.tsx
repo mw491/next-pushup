@@ -44,7 +44,7 @@ export default function TodayPushups() {
     emboss: {
       fontSize: numberFontSize,
       fontFamily: "ZenDots",
-      // color: colours.foreground + "00",
+      color: colours.background,
       position: "absolute",
       left: 3,
       top: 3,
