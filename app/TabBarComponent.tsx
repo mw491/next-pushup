@@ -37,11 +37,15 @@ export default function TabBarComponent({
           <TouchableOpacity
             key={route.key}
             onPress={onPress}
-            style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
+            style={[
+              {
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor:
+                  options.tabBarStyle?.backgroundColor || colours.background,
+              },
+            ]}
           >
             {/* Render the icon with bold weight when focused */}
             {options.tabBarIcon &&

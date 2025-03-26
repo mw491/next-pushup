@@ -9,7 +9,10 @@ export default function TabLayout() {
   const colours = useColours();
   return (
     <>
-      <StatusBar style="light" backgroundColor={colours.background} />
+      <StatusBar
+        style={colours.scheme == "dark" ? "light" : "dark"}
+        backgroundColor={colours.background}
+      />
       <Tabs
         screenOptions={{
           headerShown: false,
@@ -32,6 +35,26 @@ export default function TabLayout() {
                 style={{
                   transform: [{ scale: focused ? 1.2 : 1 }],
                   opacity: focused ? 1 : 0.8,
+                }}
+              />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="add"
+          options={{
+            tabBarIcon: ({ color, focused }) => (
+              <Ionicons
+                name="add"
+                size={24}
+                color={color}
+                style={{
+                  transform: [{ scale: focused ? 1.2 : 1 }],
+                  color: colours.background,
+                  backgroundColor: colours.foreground,
+                  borderRadius: 100,
+                  opacity: focused ? 1 : 0.8,
+                  padding: 10,
                 }}
               />
             ),
