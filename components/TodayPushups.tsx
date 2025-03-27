@@ -1,19 +1,11 @@
 import { Text, View, StyleSheet, useWindowDimensions } from "react-native";
-import useColours from "../colours";
-import { useFonts } from "expo-font";
+import useColours from "@/colours";
 import Card from "./Card";
 import StatNumber from "./StatNumber";
 
 export default function TodayPushups() {
   const colours = useColours();
-  const [fontsLoaded] = useFonts({
-    ZenDots: require("../assets/fonts/ZenDots.ttf"),
-  });
   let count = 18;
-
-  if (!fontsLoaded) {
-    return <Text>Loading fonts...</Text>;
-  }
 
   // Calculate responsive font size based on screen width
   // and number of digits in the pushup count

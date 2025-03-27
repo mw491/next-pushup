@@ -3,8 +3,8 @@ import { Tabs } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
 import { Animated, ViewStyle } from "react-native";
-import TabBarComponent from "../TabBarComponent";
-import useColours from "../../colours";
+import TabBarComponent from "@/components/TabBarComponent";
+import useColours from "@/colours";
 
 interface AnimatedTabIconProps {
   name: React.ComponentProps<typeof Ionicons>["name"];

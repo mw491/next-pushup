@@ -1,5 +1,5 @@
 import { Pressable, Text, View, StyleSheet } from "react-native";
-import useColours from "../../colours";
+import useColours from "@/colours";
 import { useState } from "react";
 
 export default function AddPushup() {

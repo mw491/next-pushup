@@ -1,18 +1,10 @@
 import { Text, View, StyleSheet } from "react-native";
-import useColours from "../../colours";
-import { useFonts } from "expo-font";
-import TodayPushups from "../../components/TodayPushups";
-import Stat from "../../components/Stat";
+import useColours from "@/colours";
+import TodayPushups from "@/components/TodayPushups";
+import Stat from "@/components/Stat";
 
 export default function Index() {
   const colours = useColours();
-  const [fontsLoaded] = useFonts({
-    ZenDots: require("../../assets/fonts/ZenDots.ttf"),
-  });
-
-  if (!fontsLoaded) {
-    return <Text>Loading fonts...</Text>;
-  }
 
   const styles = StyleSheet.create({
     container: {

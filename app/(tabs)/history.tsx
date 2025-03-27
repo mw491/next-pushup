@@ -1,16 +1,8 @@
 import { View, Text, StyleSheet } from "react-native";
-import useColours from "../../colours";
-import { useFonts } from "expo-font";
+import useColours from "@/colours";
 
 export default function History() {
   const colours = useColours();
-  const [fontsLoaded] = useFonts({
-    ZenDots: require("../../assets/fonts/ZenDots.ttf"),
-  });
-
-  if (!fontsLoaded) {
-    return <Text>Loading fonts...</Text>;
-  }
 
   const styles = StyleSheet.create({
     container: {
