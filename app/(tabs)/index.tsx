@@ -44,7 +44,7 @@ export default function Index() {
           <Stat label="personal best" value={24} />
         </View>
         <View style={{ flex: 1 }}>
-          <Stat label="rep average" value={12} />
+          <Stat label="set average" value={12} />
         </View>
       </View>
       <View style={{ flexDirection: "row", gap: 10, alignItems: "stretch" }}>

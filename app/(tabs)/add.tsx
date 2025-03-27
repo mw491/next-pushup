@@ -127,7 +127,7 @@ export default function AddPushup() {
             }}
             onPress={() => {}}
           >
-            <Text style={styles.textSave}>save rep</Text>
+            <Text style={styles.textSave}>save set</Text>
           </Pressable>
         </View>
       </View>
