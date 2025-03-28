@@ -1,35 +1,45 @@
-import { Pressable, Text, View, StyleSheet } from "react-native";
+import {
+  Pressable,
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  Platform,
+} from "react-native";
 import useColours from "@/colours";
 import { useState } from "react";
-import { addPushup } from "@/storageUtils";
+import { addPushup, clearAllData } from "@/storageUtils";
 import { router } from "expo-router";
 import { useAppData } from "../_layout";
 
 export default function AddPushup() {
   const [count, setCount] = useState(0);
   const colours = useColours();
-  const { refreshData } = useAppData();
+  const { refreshData, data: appData } = useAppData();
+
+  // Get today's sets
+  const today = new Date().toLocaleDateString("en-GB");
+  const todayEntry = appData.pushupData.find((day) => day.date === today);
+  const todaySets = todayEntry?.sets || [];
 
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      rowGap: 20,
       backgroundColor: colours.background,
       padding: 30,
       paddingTop: 40,
-    },
-    content: {
-      flex: 1,
-      alignItems: "center",
-      justifyContent: "center",
-      gap: 30,
     },
     title: {
       fontSize: 24,
       fontFamily: "ZenDots",
       color: colours.foreground,
-      marginBottom: 10,
+      marginBottom: 20,
+    },
+    content: {
       marginTop: 20,
+      alignItems: "center",
+      gap: 30,
+      paddingBottom: 40,
     },
     button: {
       width: 75,
@@ -84,6 +94,22 @@ export default function AddPushup() {
       alignItems: "center",
       gap: 20,
     },
+    setsList: {
+      width: "90%",
+      alignSelf: "center",
+    },
+    setItem: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      paddingVertical: 10,
+      borderBottomWidth: 1,
+      borderBottomColor: colours.alt_background,
+    },
+    setText: {
+      color: colours.foreground,
+      fontFamily: "ZenDots",
+      fontSize: 16,
+    },
   });
 
   const handleSave = async () => {
@@ -99,10 +125,18 @@ export default function AddPushup() {
     }
   };
 
+  const formatTime = (isoString: string) => {
+    const date = new Date(isoString);
+    return date.toLocaleTimeString("en-GB", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>LOG PUSHUP</Text>
-      <View style={styles.content}>
+      <ScrollView contentContainerStyle={styles.content} fadingEdgeLength={10}>
         <View style={styles.counter}>
           <View style={styles.buttonContainer}>
             <Pressable
@@ -147,7 +181,21 @@ export default function AddPushup() {
             <Text style={styles.textSave}>save set</Text>
           </Pressable>
         </View>
-      </View>
+        {todaySets.length > 0 && (
+          <View style={styles.setsList}>
+            <Text style={[styles.setText, { marginBottom: 10 }]}>
+              today's sets:
+            </Text>
+            {todaySets.map((item, index) => (
+              <View key={index} style={styles.setItem}>
+                <Text style={styles.setText}>set {index + 1}</Text>
+                <Text style={styles.setText}>{item.pushups} pushups</Text>
+                <Text style={styles.setText}>{formatTime(item.time)}</Text>
+              </View>
+            ))}
+          </View>
+        )}
+      </ScrollView>
     </View>
   );
 }

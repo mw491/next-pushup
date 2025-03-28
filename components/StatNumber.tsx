@@ -21,8 +21,8 @@ export default function AnimatedCounter({
   const [displayValue, setDisplayValue] = useState(0);
 
   useEffect(() => {
-    // Reset the value if targetValue changes (optional)
-    animatedValue.setValue(0);
+    // Reset the value if targetValue changes
+    // animatedValue.setValue(0);
 
     // Animate from 0 to targetValue
     Animated.timing(animatedValue, {
