@@ -41,6 +41,31 @@ const getDefaultData = (): AppData => ({
   },
 });
 
+// Helper function to merge existing data with defaults
+export const ensureDefaultValues = async (): Promise<void> => {
+  try {
+    const jsonValue = await AsyncStorage.getItem(STORAGE_KEY);
+    if (jsonValue != null) {
+      const existingData = JSON.parse(jsonValue);
+      const defaultData = getDefaultData();
+
+      // Deep merge existing data with default values
+      const mergedData: AppData = {
+        pushupData: existingData.pushupData || defaultData.pushupData,
+        userSettings: {
+          ...defaultData.userSettings,
+          ...existingData.userSettings,
+        },
+      };
+
+      // Save the merged data back to storage
+      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(mergedData));
+    }
+  } catch (error) {
+    console.error('Error ensuring default values:', error);
+    throw error;
+  }
+};
 
 // --- CREATE ---
 export const addPushup = async (newEntry: PushupData): Promise<void> => {
@@ -60,6 +85,7 @@ export const addPushup = async (newEntry: PushupData): Promise<void> => {
 // --- READ ---
 export const readAllData = async (): Promise<AppData> => {
   try {
+    await ensureDefaultValues(); // Ensure defaults before reading
     const jsonValue = await AsyncStorage.getItem(STORAGE_KEY);
     if (jsonValue != null) {
       return JSON.parse(jsonValue) as AppData;
@@ -85,6 +111,7 @@ export const readPushupEntry = async (date: string): Promise<PushupData | undefi
 // --- UPDATE ---
 export const updateSettings = async (newSettings: UserSettings): Promise<void> => {
   try {
+    await ensureDefaultValues(); // Ensure defaults before updating
     const allData = await readAllData();
     const updatedData: AppData = { ...allData, userSettings: newSettings };
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedData));
