@@ -3,10 +3,12 @@ import useColours from "@/colours";
 import { useState } from "react";
 import { addPushup } from "@/storageUtils";
 import { router } from "expo-router";
+import { useAppData } from "../_layout";
 
 export default function AddPushup() {
   const [count, setCount] = useState(0);
   const colours = useColours();
+  const { refreshData } = useAppData();
 
   const styles = StyleSheet.create({
     container: {
@@ -84,6 +86,18 @@ export default function AddPushup() {
     },
   });
 
+  const handleSave = async () => {
+    if (count > 0) {
+      const today = new Date().toLocaleDateString("en-GB");
+      await addPushup({
+        date: today,
+        sets: [{ pushups: count, time: new Date().toISOString() }],
+      });
+      await refreshData(); // Refresh the app data after adding new entry
+      router.back();
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>LOG PUSHUP</Text>
@@ -127,27 +141,7 @@ export default function AddPushup() {
             android_ripple={{
               color: colours.alt_background,
             }}
-            onPress={() => {
-              addPushup({
-                date: new Date().toLocaleDateString("en-GB"),
-                sets: [
-                  {
-                    pushups: count,
-                    time: new Date().toLocaleTimeString("en-GB", {
-                      hour12: false,
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    }),
-                  },
-                ],
-              })
-                .then(() => {
-                  router.replace("/(tabs)");
-                })
-                .catch((error) => {
-                  console.error("Error saving pushup:", error);
-                });
-            }}
+            onPress={handleSave}
           >
             <Text style={styles.textSave}>save set</Text>
           </Pressable>

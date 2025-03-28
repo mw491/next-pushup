@@ -1,16 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Animated, Text } from "react-native";
+import { Animated, Text, View, ViewStyle } from "react-native";
 
 type AnimatedCounterProps = {
   targetValue: number;
   duration?: number;
   style?: any;
+  variant?: "large" | "small";
 };
 
 export default function AnimatedCounter({
   targetValue,
   duration = 1000,
   style,
+  variant = "small",
 }: AnimatedCounterProps) {
   // Create an Animated.Value starting at 0
   const animatedValue = useRef(new Animated.Value(0)).current;
@@ -40,9 +42,28 @@ export default function AnimatedCounter({
     };
   }, [targetValue]);
 
+  // Different container styles based on variant
+  const containerStyle: ViewStyle =
+    variant === "large"
+      ? { width: "100%", overflow: "hidden" }
+      : { minWidth: 50 };
+
+  // Different text styles based on variant
+  const textStyle =
+    variant === "large"
+      ? { width: "100%", textAlign: "center" }
+      : { textAlign: "center" };
+
   return (
-    <Text style={style} adjustsFontSizeToFit numberOfLines={1}>
-      {displayValue}
-    </Text>
+    <View style={containerStyle}>
+      <Text
+        style={[textStyle, style]}
+        adjustsFontSizeToFit
+        numberOfLines={1}
+        minimumFontScale={variant === "large" ? 0.1 : 0.5}
+      >
+        {displayValue}
+      </Text>
+    </View>
   );
 }

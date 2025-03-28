@@ -3,17 +3,9 @@ import useColours from "@/colours";
 import Card from "./Card";
 import StatNumber from "./StatNumber";
 
-export default function TodayPushups() {
+export default function TodayPushups({ count }: { count: number }) {
   const colours = useColours();
-  let count = 18;
-
-  // Calculate responsive font size based on screen width
-  // and number of digits in the pushup count
   const { width } = useWindowDimensions();
-  const digitCount = count.toString().length;
-  const baseFontSize = Math.min(80, width / 4);
-  const numberFontSize =
-    digitCount > 2 ? baseFontSize * (3 / digitCount) : baseFontSize;
 
   const styles = StyleSheet.create({
     container: {
@@ -21,25 +13,42 @@ export default function TodayPushups() {
       alignItems: "center",
       gap: 20,
     },
+    numberContainer: {
+      position: "relative",
+      width: width * 0.4, // 40% of screen width
+    },
+    numbersWrapper: {
+      position: "relative",
+      width: "100%",
+    },
+    embossContainer: {
+      position: "absolute",
+      width: "100%",
+      left: 3,
+      top: 3,
+      zIndex: 1,
+    },
+    mainNumberContainer: {
+      position: "relative",
+      width: "100%",
+      zIndex: 2,
+    },
     text: {
       fontSize: Math.min(24, width / 16),
       fontFamily: "ZenDots",
       color: colours.foreground,
     },
     number: {
-      fontSize: numberFontSize,
+      fontSize: 100,
       fontFamily: "ZenDots",
       color: colours.foreground,
       textShadowColor: colours.foreground,
       textShadowRadius: 3,
     },
     emboss: {
-      fontSize: numberFontSize,
+      fontSize: 100,
       fontFamily: "ZenDots",
       color: colours.background,
-      position: "absolute",
-      left: 3,
-      top: 3,
       textShadowColor: colours.foreground,
       textShadowRadius: 10,
       opacity: 0.8,
@@ -49,11 +58,23 @@ export default function TodayPushups() {
   return (
     <Card>
       <View style={styles.container}>
-        <View style={{ position: "relative" }}>
-          {/* <Text style={styles.emboss}>{count}</Text>
-          <Text style={styles.number}>{count}</Text> */}
-          <StatNumber style={styles.emboss} targetValue={count} />
-          <StatNumber style={styles.number} targetValue={count} />
+        <View style={styles.numberContainer}>
+          <View style={styles.numbersWrapper}>
+            <View style={styles.embossContainer}>
+              <StatNumber
+                style={styles.emboss}
+                targetValue={count}
+                variant="large"
+              />
+            </View>
+            <View style={styles.mainNumberContainer}>
+              <StatNumber
+                style={styles.number}
+                targetValue={count}
+                variant="large"
+              />
+            </View>
+          </View>
         </View>
         <View>
           <Text style={styles.text}>pushups</Text>

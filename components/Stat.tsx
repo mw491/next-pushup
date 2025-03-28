@@ -47,7 +47,11 @@ export default function Stat({ label, value }: Props) {
           {/* <Text style={styles.emboss} adjustsFontSizeToFit numberOfLines={1}>
             {value}
           </Text> */}
-          <StatNumber style={styles.value} targetValue={value} />
+          <StatNumber
+            style={styles.value}
+            targetValue={value}
+            variant="small"
+          />
           {/* <Text style={styles.value} adjustsFontSizeToFit numberOfLines={1}>
             {value}
           </Text> */}
