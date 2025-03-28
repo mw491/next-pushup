@@ -111,7 +111,6 @@ export const readPushupEntry = async (date: string): Promise<PushupData | undefi
 // --- UPDATE ---
 export const updateSettings = async (newSettings: UserSettings): Promise<void> => {
   try {
-    await ensureDefaultValues(); // Ensure defaults before updating
     const allData = await readAllData();
     const updatedData: AppData = { ...allData, userSettings: newSettings };
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedData));
