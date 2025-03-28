@@ -1,6 +1,8 @@
 import { Pressable, Text, View, StyleSheet } from "react-native";
 import useColours from "@/colours";
 import { useState } from "react";
+import { addPushup } from "@/storageUtils";
+import { router } from "expo-router";
 
 export default function AddPushup() {
   const [count, setCount] = useState(0);
@@ -125,7 +127,27 @@ export default function AddPushup() {
             android_ripple={{
               color: colours.alt_background,
             }}
-            onPress={() => {}}
+            onPress={() => {
+              addPushup({
+                date: new Date().toLocaleDateString("en-GB"),
+                sets: [
+                  {
+                    pushups: count,
+                    time: new Date().toLocaleTimeString("en-GB", {
+                      hour12: false,
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    }),
+                  },
+                ],
+              })
+                .then(() => {
+                  router.replace("/(tabs)");
+                })
+                .catch((error) => {
+                  console.error("Error saving pushup:", error);
+                });
+            }}
           >
             <Text style={styles.textSave}>save set</Text>
           </Pressable>

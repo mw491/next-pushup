@@ -71,14 +71,25 @@ export const ensureDefaultValues = async (): Promise<void> => {
 export const addPushup = async (newEntry: PushupData): Promise<void> => {
   try {
     const existingData = await readAllData();
-    const updatedData: AppData = {
-      ...existingData,
-      pushupData: [...existingData.pushupData, newEntry],
-    };
-    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedData));
+    const existingDateIndex = existingData.pushupData.findIndex(
+      (entry) => entry.date === newEntry.date
+    );
+
+    if (existingDateIndex !== -1) {
+      // If entry for this date exists, append the new sets
+      existingData.pushupData[existingDateIndex].sets = [
+        ...existingData.pushupData[existingDateIndex].sets,
+        ...newEntry.sets
+      ];
+    } else {
+      // If no entry for this date exists, add new entry
+      existingData.pushupData.push(newEntry);
+    }
+
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(existingData));
   } catch (error) {
     console.error('Error creating pushup entry:', error);
-    throw error; // Re-throw to signal failure to the caller
+    throw error;
   }
 };
 

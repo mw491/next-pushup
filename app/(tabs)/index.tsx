@@ -2,9 +2,15 @@ import { Text, View, StyleSheet } from "react-native";
 import useColours from "@/colours";
 import TodayPushups from "@/components/TodayPushups";
 import Stat from "@/components/Stat";
+// import { useEffect } from "react";
+// import { readAllData } from "@/storageUtils";
 
 export default function Index() {
   const colours = useColours();
+
+  // useEffect(() => {
+  //   readAllData().then((data) => console.log(data));
+  // }, []);
 
   const styles = StyleSheet.create({
     container: {
