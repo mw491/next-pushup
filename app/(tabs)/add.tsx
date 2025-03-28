@@ -1,14 +1,7 @@
-import {
-  Pressable,
-  Text,
-  View,
-  StyleSheet,
-  ScrollView,
-  Platform,
-} from "react-native";
+import { Pressable, Text, View, StyleSheet, ScrollView } from "react-native";
 import useColours from "@/colours";
 import { useState } from "react";
-import { addPushup, clearAllData } from "@/storageUtils";
+import { addPushup } from "@/storageUtils";
 import { router } from "expo-router";
 import { useAppData } from "../_layout";
 
@@ -103,7 +96,7 @@ export default function AddPushup() {
       justifyContent: "space-between",
       paddingVertical: 10,
       borderBottomWidth: 1,
-      borderBottomColor: colours.alt_background,
+      borderBottomColor: colours.foreground + "22",
     },
     setText: {
       color: colours.foreground,
