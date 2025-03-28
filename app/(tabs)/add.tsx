@@ -88,6 +88,7 @@ export default function AddPushup() {
 
   const handleSave = async () => {
     if (count > 0) {
+      setCount(0);
       const today = new Date().toLocaleDateString("en-GB");
       await addPushup({
         date: today,
