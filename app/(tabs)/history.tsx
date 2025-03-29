@@ -38,7 +38,7 @@ export default function History() {
     dateText: {
       color: colours.foreground,
       fontFamily: "ZenDots",
-      fontSize: 24,
+      fontSize: 22,
       textAlign: "center",
     },
     setItem: {
@@ -52,7 +52,7 @@ export default function History() {
     setText: {
       color: colours.foreground,
       fontFamily: "ZenDots",
-      fontSize: 22,
+      fontSize: 18,
     },
     emptyText: {
       color: colours.foreground,
@@ -96,7 +96,11 @@ export default function History() {
               .map((day) => (
                 <View key={day.date} style={styles.dayContainer}>
                   <View style={styles.dateHeader}>
-                    <Text style={styles.dateText}>
+                    <Text
+                      style={styles.dateText}
+                      adjustsFontSizeToFit
+                      numberOfLines={1}
+                    >
                       {getDayOfWeek(day.date)}, {day.date}
                     </Text>
                   </View>
