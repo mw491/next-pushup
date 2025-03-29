@@ -18,12 +18,14 @@ export default function History() {
       fontFamily: "ZenDots",
       color: colours.foreground,
       marginBottom: 20,
+      marginTop: 20,
     },
     content: {
       paddingBottom: 40,
     },
     setsList: {
       width: "100%",
+      gap: 20,
     },
     dayContainer: {
       marginBottom: 20,
@@ -38,7 +40,6 @@ export default function History() {
     dateText: {
       color: colours.foreground,
       fontFamily: "ZenDots",
-      fontSize: 22,
       textAlign: "center",
     },
     setItem: {
@@ -93,26 +94,38 @@ export default function History() {
                   new Date(aYear, aMonth - 1, aDay).getTime()
                 );
               })
-              .map((day) => (
-                <View key={day.date} style={styles.dayContainer}>
-                  <View style={styles.dateHeader}>
-                    <Text
-                      style={styles.dateText}
-                      adjustsFontSizeToFit
-                      numberOfLines={1}
-                    >
-                      {getDayOfWeek(day.date)}, {day.date}
-                    </Text>
-                  </View>
-                  {day.sets.map((set, index) => (
-                    <View key={index} style={styles.setItem}>
-                      <Text style={styles.setText}>set {index + 1}</Text>
-                      <Text style={styles.setText}>{set.pushups} pushups</Text>
-                      <Text style={styles.setText}>{formatTime(set.time)}</Text>
+              .map((day) => {
+                const totalPushups = day.sets.reduce(
+                  (sum, set) => sum + set.pushups,
+                  0
+                );
+
+                return (
+                  <View key={day.date} style={styles.dayContainer}>
+                    <View style={styles.dateHeader}>
+                      <Text
+                        style={styles.dateText}
+                        adjustsFontSizeToFit
+                        numberOfLines={1}
+                      >
+                        {getDayOfWeek(day.date)} ({day.date}): {totalPushups}{" "}
+                        pushups
+                      </Text>
                     </View>
-                  ))}
-                </View>
-              ))}
+                    {day.sets.map((set, index) => (
+                      <View key={index} style={styles.setItem}>
+                        <Text style={styles.setText}>set {index + 1}</Text>
+                        <Text style={styles.setText}>
+                          {set.pushups} pushups
+                        </Text>
+                        <Text style={styles.setText}>
+                          {formatTime(set.time)}
+                        </Text>
+                      </View>
+                    ))}
+                  </View>
+                );
+              })}
           </View>
         ) : (
           <Text style={styles.emptyText}>No pushup data yet</Text>

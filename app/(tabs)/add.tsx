@@ -27,6 +27,7 @@ export default function AddPushup() {
       fontFamily: "ZenDots",
       color: colours.foreground,
       marginBottom: 20,
+      marginTop: 20,
     },
     content: {
       marginTop: 20,
