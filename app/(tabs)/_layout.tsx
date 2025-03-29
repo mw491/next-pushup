@@ -9,6 +9,8 @@ import useColours from "@/colours";
 interface AnimatedTabIconProps {
   name: React.ComponentProps<typeof Ionicons>["name"];
   color: string;
+  focusedColor: string;
+  focusedBackgroundColor: string;
   focused: boolean;
   style?: ViewStyle;
 }
@@ -16,6 +18,8 @@ interface AnimatedTabIconProps {
 const AnimatedTabIcon = ({
   name,
   color,
+  focusedColor,
+  focusedBackgroundColor,
   focused,
   style,
 }: AnimatedTabIconProps) => {
@@ -47,10 +51,13 @@ const AnimatedTabIcon = ({
       style={{
         transform: [{ scale: animatedScale }],
         opacity: animatedOpacity,
+        backgroundColor: focused ? focusedBackgroundColor : "transparent",
+        borderRadius: 100,
+        padding: 10,
         ...style,
       }}
     >
-      <Ionicons name={name} size={24} color={color} />
+      <Ionicons name={name} size={24} color={focused ? focusedColor : color} />
     </Animated.View>
   );
 };
@@ -66,30 +73,37 @@ export default function TabLayout() {
           tabBarStyle: {
             backgroundColor: colours.background,
           },
+          animation: "shift",
+          sceneStyle: {
+            backgroundColor: colours.background,
+          },
         }}
         tabBar={(props) => <TabBarComponent {...props} />}
       >
         <Tabs.Screen
           name="index"
           options={{
-            tabBarIcon: ({ color, focused }) => (
-              <AnimatedTabIcon name="home" color={color} focused={focused} />
+            tabBarIcon: ({ focused }) => (
+              <AnimatedTabIcon
+                name="home"
+                color={colours.foreground}
+                focusedColor={colours.background}
+                focusedBackgroundColor={colours.foreground}
+                focused={focused}
+              />
             ),
           }}
         />
         <Tabs.Screen
           name="add"
           options={{
-            tabBarIcon: ({ focused }) => (
+            tabBarIcon: ({ color, focused }) => (
               <AnimatedTabIcon
                 name="add"
-                color={colours.background}
+                color={color}
+                focusedColor={colours.background}
+                focusedBackgroundColor={colours.foreground}
                 focused={focused}
-                style={{
-                  backgroundColor: colours.foreground,
-                  borderRadius: 100,
-                  padding: 10,
-                }}
               />
             ),
           }}
@@ -98,7 +112,13 @@ export default function TabLayout() {
           name="history"
           options={{
             tabBarIcon: ({ color, focused }) => (
-              <AnimatedTabIcon name="list" color={color} focused={focused} />
+              <AnimatedTabIcon
+                name="list"
+                color={color}
+                focusedColor={colours.background}
+                focusedBackgroundColor={colours.foreground}
+                focused={focused}
+              />
             ),
           }}
         />
