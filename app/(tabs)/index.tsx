@@ -1,13 +1,25 @@
-import { Text, View, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  RefreshControl,
+} from "react-native";
 import useColours from "@/colours";
 import TodayPushups from "@/components/TodayPushups";
 import Stat from "@/components/Stat";
 import { useAppData } from "../_layout";
-import { useEffect } from "react";
+import { useCallback, useState } from "react";
 
 export default function Index() {
   const colours = useColours();
-  const { data: appData } = useAppData();
+  const { data: appData, refreshData } = useAppData();
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await refreshData().then(() => setRefreshing(false));
+  }, []);
 
   const styles = StyleSheet.create({
     container: {
@@ -99,28 +111,35 @@ export default function Index() {
     );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>NEXT PUSHUP</Text>
-      <TodayPushups count={todayTotal} />
-      <View style={{ flexDirection: "row", gap: 10 }}>
-        <View style={{ flex: 1 }}>
-          <Stat label="personal best" value={personalBest} />
+    <ScrollView
+      scrollEnabled={false}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
+      <View style={styles.container}>
+        <Text style={styles.title}>NEXT PUSHUP</Text>
+        <TodayPushups count={todayTotal} />
+        <View style={{ flexDirection: "row", gap: 10 }}>
+          <View style={{ flex: 1 }}>
+            <Stat label="personal best" value={personalBest} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Stat label="set average" value={setAverage} />
+          </View>
         </View>
-        <View style={{ flex: 1 }}>
-          <Stat label="set average" value={setAverage} />
+        <View style={{ flexDirection: "row", gap: 10, alignItems: "stretch" }}>
+          <View style={{ flex: 1 }}>
+            <Stat label="this week" value={weekTotal} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Stat label="this month" value={monthTotal} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Stat label="this year" value={yearTotal} />
+          </View>
         </View>
       </View>
-      <View style={{ flexDirection: "row", gap: 10, alignItems: "stretch" }}>
-        <View style={{ flex: 1 }}>
-          <Stat label="this week" value={weekTotal} />
-        </View>
-        <View style={{ flex: 1 }}>
-          <Stat label="this month" value={monthTotal} />
-        </View>
-        <View style={{ flex: 1 }}>
-          <Stat label="this year" value={yearTotal} />
-        </View>
-      </View>
-    </View>
+    </ScrollView>
   );
 }
