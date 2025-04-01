@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          path: .
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -39,7 +41,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Install EAS CLI
         run: pnpm add -g eas-cli
@@ -64,6 +66,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          path: .
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -91,7 +95,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Install EAS CLI
         run: pnpm add -g eas-cli
@@ -118,6 +122,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          path: .
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -145,7 +151,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Install EAS CLI
         run: pnpm add -g eas-cli
@@ -168,6 +174,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          path: .
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -195,7 +203,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Install EAS CLI
         run: pnpm add -g eas-cli
@@ -214,6 +222,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          path: .
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -241,7 +251,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Install EAS CLI
         run: pnpm add -g eas-cli
