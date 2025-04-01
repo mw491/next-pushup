@@ -1,6 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { EventEmitter } from 'events';
 
 const STORAGE_KEY = 'pushupData'; // Centralize the key
+
+export const themeEmitter = new EventEmitter();
 
 export interface Pushup {
   pushups: number;
@@ -125,6 +128,10 @@ export const updateSettings = async (newSettings: UserSettings): Promise<void> =
     const allData = await readAllData();
     const updatedData: AppData = { ...allData, userSettings: newSettings };
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedData));
+    // Emit theme change event if theme was changed
+    if (allData.userSettings.theme !== newSettings.theme) {
+      themeEmitter.emit('themeChanged', newSettings.theme);
+    }
   } catch (error) {
     console.error('Error updating settings:', error);
     throw error;

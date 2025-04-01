@@ -122,6 +122,20 @@ export default function TabLayout() {
             ),
           }}
         />
+        <Tabs.Screen
+          name="settings"
+          options={{
+            tabBarIcon: ({ color, focused }) => (
+              <AnimatedTabIcon
+                name="options"
+                color={color}
+                focusedColor={colours.background}
+                focusedBackgroundColor={colours.foreground}
+                focused={focused}
+              />
+            ),
+          }}
+        />
       </Tabs>
     </>
   );

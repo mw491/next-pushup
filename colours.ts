@@ -1,4 +1,6 @@
 import { useColorScheme } from "react-native";
+import { useEffect, useState } from "react";
+import { Theme, themeEmitter, readAllData } from "@/storageUtils";
 
 type ColourScheme = {
   scheme: string | null | undefined;
@@ -10,7 +12,34 @@ type ColourScheme = {
 };
 
 export default function useColours(): ColourScheme {
-  const scheme = useColorScheme();
+  const systemScheme = useColorScheme();
+  const [userTheme, setUserTheme] = useState<Theme>(Theme.SYSTEM);
+
+  useEffect(() => {
+    const loadTheme = async () => {
+      try {
+        const data = await readAllData();
+        setUserTheme(data.userSettings.theme);
+      } catch (e) {
+        console.warn("Error loading theme:", e);
+      }
+    };
+
+    // Load theme initially
+    loadTheme();
+
+    // Listen for theme changes
+    const onThemeChange = (newTheme: Theme) => {
+      setUserTheme(newTheme);
+    };
+    themeEmitter.on('themeChanged', onThemeChange);
+
+    return () => {
+      themeEmitter.off('themeChanged', onThemeChange);
+    };
+  }, []);
+
+  const scheme = userTheme === Theme.SYSTEM ? systemScheme : userTheme;
 
   const colours: ColourScheme = {
     scheme,
