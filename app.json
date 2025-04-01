@@ -15,7 +15,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#111111"
-      }
+      },
+      "package": "com.mw491.nextpushup"
     },
     "splash": {
       "image": "./assets/images/icon.png",
@@ -30,9 +31,22 @@
     "androidNavigationBar": {
       "backgroundColor": "#111111"
     },
-    "plugins": ["expo-router", "expo-splash-screen", "expo-font"],
+    "plugins": [
+      "expo-router",
+      "expo-splash-screen",
+      "expo-font"
+    ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "1fe9b498-6857-41d8-9615-0fe88b782f86"
+      }
+    },
+    "owner": "mw491"
   }
 }
