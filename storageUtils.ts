@@ -4,6 +4,7 @@ import { EventEmitter } from 'events';
 const STORAGE_KEY = 'pushupData'; // Centralize the key
 
 export const themeEmitter = new EventEmitter();
+themeEmitter.setMaxListeners(20); // Set a higher limit for theme listeners
 
 export interface Pushup {
   pushups: number;
