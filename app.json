@@ -1,8 +1,7 @@
 {
   "expo": {
-    "name": "next-pushup",
+    "name": "NEXT PUSHUP",
     "slug": "next-pushup",
-    "displayName": "Next Pushup",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -32,11 +31,7 @@
     "androidNavigationBar": {
       "backgroundColor": "#111111"
     },
-    "plugins": [
-      "expo-router",
-      "expo-splash-screen",
-      "expo-font"
-    ],
+    "plugins": ["expo-router", "expo-splash-screen", "expo-font"],
     "experiments": {
       "typedRoutes": true
     },
