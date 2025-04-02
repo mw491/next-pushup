@@ -10,7 +10,7 @@ export default function History() {
     container: {
       flex: 1,
       backgroundColor: colours.background,
-      padding: 20,
+      padding: 30,
       paddingTop: 40,
     },
     title: {
