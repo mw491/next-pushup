@@ -17,6 +17,7 @@ import {
 } from "../../storageUtils"; // Adjust path as necessary
 import useColours from "../../colours"; // Import the useColours hook
 import Card from "@/components/Card";
+import * as Application from "expo-application";
 
 const Settings = () => {
   const [settings, setSettings] = useState<UserSettings>({
@@ -155,6 +156,15 @@ const Settings = () => {
         </Card>
       </ScrollView>
 
+      <View style={styles.versionContainer}>
+        <Text style={[styles.versionText, { color: colours.alt_foreground }]}>
+          App Version: {Application.nativeApplicationVersion}
+        </Text>
+        <Text style={[styles.versionText, { color: colours.alt_foreground }]}>
+          Build Version: {Application.nativeBuildVersion}
+        </Text>
+      </View>
+
       <Modal
         animationType="fade"
         transparent={true}
@@ -269,6 +279,16 @@ const styles = StyleSheet.create({
   themeOptionText: {
     fontFamily: "ZenDots",
     fontSize: 14,
+  },
+  versionContainer: {
+    alignItems: "center",
+    paddingBottom: 20,
+    gap: 4,
+  },
+  versionText: {
+    fontFamily: "ZenDots",
+    fontSize: 12,
+    opacity: 0.7,
   },
 });
 
