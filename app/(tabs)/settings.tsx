@@ -6,14 +6,11 @@ import {
   TextInput,
   StyleSheet,
   ScrollView,
-  Modal,
-  Pressable,
 } from "react-native";
 import {
   readAllData,
   updateSettings,
   UserSettings,
-  Theme,
 } from "../../storageUtils"; // Adjust path as necessary
 import useColours from "../../colours"; // Import the useColours hook
 import Card from "@/components/Card";
@@ -21,12 +18,10 @@ import * as Application from "expo-application";
 
 const Settings = () => {
   const [settings, setSettings] = useState<UserSettings>({
-    theme: Theme.SYSTEM,
     dailyGoal: 30,
     sendReminder: true,
     reminderTime: "12:00",
   });
-  const [themeModalVisible, setThemeModalVisible] = useState(false);
 
   useEffect(() => {
     const loadSettings = async () => {
@@ -45,40 +40,7 @@ const Settings = () => {
 
   const colours = useColours(); // Use the useColours hook to get the current color scheme
 
-  const ThemeOption = ({
-    theme,
-    onPress,
-  }: {
-    theme: Theme;
-    onPress: () => void;
-  }) => (
-    <Pressable
-      onPress={onPress}
-      style={[
-        styles.themeOption,
-        {
-          backgroundColor:
-            settings.theme === theme
-              ? colours.foreground
-              : colours.alt_background,
-        },
-      ]}
-    >
-      <Text
-        style={[
-          styles.themeOptionText,
-          {
-            color:
-              settings.theme === theme
-                ? colours.background
-                : colours.alt_foreground,
-          },
-        ]}
-      >
-        {theme.toUpperCase()}
-      </Text>
-    </Pressable>
-  );
+
 
   return (
     <View style={[styles.container, { backgroundColor: colours.background }]}>
@@ -86,22 +48,6 @@ const Settings = () => {
         SETTINGS
       </Text>
       <ScrollView contentContainerStyle={styles.content}>
-        <Pressable onPress={() => setThemeModalVisible(true)}>
-          <Card>
-            <View style={styles.settingGroup}>
-              <Text
-                style={[styles.settingLabel, { color: colours.alt_foreground }]}
-              >
-                Theme
-              </Text>
-              <Text
-                style={[styles.settingValue, { color: colours.alt_foreground }]}
-              >
-                {settings.theme.toUpperCase()}
-              </Text>
-            </View>
-          </Card>
-        </Pressable>
 
         <Card>
           <View style={styles.settingGroup}>
@@ -165,53 +111,7 @@ const Settings = () => {
         </Text>
       </View>
 
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={themeModalVisible}
-        onRequestClose={() => setThemeModalVisible(false)}
-      >
-        <Pressable
-          style={[
-            styles.modalOverlay,
-            { backgroundColor: colours.background + "CC" },
-          ]}
-          onPress={() => setThemeModalVisible(false)}
-        >
-          <View style={styles.modalContent}>
-            <Card>
-              <View style={styles.themeOptions}>
-                <Text
-                  style={[styles.modalTitle, { color: colours.alt_foreground }]}
-                >
-                  SELECT THEME
-                </Text>
-                <ThemeOption
-                  theme={Theme.SYSTEM}
-                  onPress={() => {
-                    updateSetting("theme", Theme.SYSTEM);
-                    setThemeModalVisible(false);
-                  }}
-                />
-                <ThemeOption
-                  theme={Theme.LIGHT}
-                  onPress={() => {
-                    updateSetting("theme", Theme.LIGHT);
-                    setThemeModalVisible(false);
-                  }}
-                />
-                <ThemeOption
-                  theme={Theme.DARK}
-                  onPress={() => {
-                    updateSetting("theme", Theme.DARK);
-                    setThemeModalVisible(false);
-                  }}
-                />
-              </View>
-            </Card>
-          </View>
-        </Pressable>
-      </Modal>
+
     </View>
   );
 };
@@ -252,34 +152,7 @@ const styles = StyleSheet.create({
     textAlign: "right",
     minWidth: 80,
   },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalContent: {
-    width: "80%",
-  },
-  themeOptions: {
-    width: "100%",
-    gap: 15,
-    alignItems: "center",
-  },
-  modalTitle: {
-    fontFamily: "ZenDots",
-    fontSize: 16,
-    marginBottom: 10,
-  },
-  themeOption: {
-    width: "100%",
-    padding: 15,
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  themeOptionText: {
-    fontFamily: "ZenDots",
-    fontSize: 14,
-  },
+
   versionContainer: {
     alignItems: "center",
     paddingBottom: 20,

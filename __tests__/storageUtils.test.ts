@@ -9,7 +9,6 @@ import {
   type Pushup,
   type PushupData,
   type UserSettings,
-  Theme
 } from '../storageUtils';
 
 // Mock AsyncStorage
@@ -34,7 +33,6 @@ describe('Storage Utils', () => {
       expect(result).toEqual({
         pushupData: [],
         userSettings: {
-          theme: Theme.SYSTEM,
           dailyGoal: 30,
           sendReminder: true,
           reminderTime: '12:00',
@@ -47,7 +45,6 @@ describe('Storage Utils', () => {
       const mockData = {
         pushupData: [{ date: '2023-05-01', sets: [{ pushups: 10, time: '10:00' }] }],
         userSettings: {
-          theme: Theme.DARK,
           dailyGoal: 50,
           sendReminder: false,
           reminderTime: '08:00',
@@ -68,7 +65,6 @@ describe('Storage Utils', () => {
       const existingData = {
         pushupData: [],
         userSettings: {
-          theme: Theme.SYSTEM,
           dailyGoal: 30,
           sendReminder: true,
           reminderTime: '12:00',
@@ -103,7 +99,6 @@ describe('Storage Utils', () => {
           },
         ],
         userSettings: {
-          theme: Theme.SYSTEM,
           dailyGoal: 30,
           sendReminder: true,
           reminderTime: '12:00',
@@ -147,7 +142,6 @@ describe('Storage Utils', () => {
           },
         ],
         userSettings: {
-          theme: Theme.SYSTEM,
           dailyGoal: 30,
           sendReminder: true,
           reminderTime: '12:00',
@@ -171,7 +165,6 @@ describe('Storage Utils', () => {
       const existingData = {
         pushupData: [existingEntry],
         userSettings: {
-          theme: Theme.SYSTEM,
           dailyGoal: 30,
           sendReminder: true,
           reminderTime: '12:00',
@@ -191,7 +184,6 @@ describe('Storage Utils', () => {
       const existingData = {
         pushupData: [],
         userSettings: {
-          theme: Theme.SYSTEM,
           dailyGoal: 30,
           sendReminder: true,
           reminderTime: '12:00',
@@ -201,7 +193,6 @@ describe('Storage Utils', () => {
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(JSON.stringify(existingData));
 
       const newSettings: UserSettings = {
-        theme: Theme.DARK,
         dailyGoal: 50,
         sendReminder: false,
         reminderTime: '08:00',
@@ -232,7 +223,6 @@ describe('Storage Utils', () => {
       const existingData = {
         pushupData: [{ date: '2023-05-01', sets: [{ pushups: 10, time: '10:00' }] }],
         userSettings: {
-          theme: Theme.DARK,
           // Missing some fields
         },
       };
@@ -253,10 +243,7 @@ describe('Storage Utils', () => {
         'pushupData',
         expect.stringContaining('"reminderTime":"12:00"')
       );
-      expect(AsyncStorage.setItem).toHaveBeenCalledWith(
-        'pushupData',
-        expect.stringContaining('"theme":"dark"')
-      );
+
     });
   });
-}); 
+});
