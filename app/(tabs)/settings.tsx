@@ -26,6 +26,87 @@ const Settings = () => {
     reminderTime: "12:00",
   });
   const [showTimePicker, setShowTimePicker] = useState(false);
+  const colours = useColours(); // Use the useColours hook to get the current color scheme
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      padding: 30,
+      paddingTop: 40,
+      backgroundColor: colours.background,
+    },
+    content: {
+      gap: 20,
+      paddingBottom: 40,
+    },
+    title: {
+      fontSize: 24,
+      fontFamily: "ZenDots",
+      marginBottom: 20,
+      marginTop: 20,
+      color: colours.foreground,
+    },
+    settingGroup: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      width: "100%",
+    },
+    settingLabel: {
+      fontFamily: "ZenDots",
+      fontSize: 14,
+      color: colours.alt_foreground,
+    },
+    settingValue: {
+      fontFamily: "ZenDots",
+      fontSize: 14,
+      color: colours.alt_foreground,
+    },
+    input: {
+      fontFamily: "ZenDots",
+      fontSize: 14,
+      textAlign: "right",
+      minWidth: 80,
+      color: colours.alt_foreground,
+    },
+    timeText: {
+      fontFamily: "ZenDots",
+      fontSize: 14,
+      textAlign: "center",
+      minWidth: 80,
+      color: colours.alt_foreground,
+    },
+    timeButton: {
+      borderWidth: 1,
+      borderColor: colours.foreground,
+      borderRadius: 8,
+      paddingVertical: 6,
+      paddingHorizontal: 12,
+      minWidth: 100,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    switchTrackColorFalse: {
+      backgroundColor: colours.background,
+    },
+    switchTrackColorTrue: {
+      backgroundColor: colours.foreground,
+    },
+    switchThumbColor: {
+      backgroundColor: colours.alt_background,
+    },
+    versionContainer: {
+      alignItems: "center",
+      paddingBottom: 20,
+      gap: 4,
+    },
+    versionText: {
+      fontFamily: "ZenDots",
+      fontSize: 12,
+      opacity: 0.7,
+      color: colours.alt_foreground,
+    },
+  });
 
   useEffect(() => {
     const loadSettings = async () => {
@@ -52,26 +133,20 @@ const Settings = () => {
     }
   };
 
-  const colours = useColours(); // Use the useColours hook to get the current color scheme
-
-
-
   return (
-    <View style={[styles.container, { backgroundColor: colours.background }]}>
-      <Text style={[styles.title, { color: colours.foreground }]}>
+    <View style={styles.container}>
+      <Text style={styles.title}>
         SETTINGS
       </Text>
       <ScrollView contentContainerStyle={styles.content}>
 
         <Card>
           <View style={styles.settingGroup}>
-            <Text
-              style={[styles.settingLabel, { color: colours.alt_foreground }]}
-            >
+            <Text style={styles.settingLabel}>
               Daily Goal
             </Text>
             <TextInput
-              style={[styles.input, { color: colours.alt_foreground }]}
+              style={styles.input}
               keyboardType="number-pad"
               value={settings.dailyGoal.toString()}
               onChangeText={(text) =>
@@ -83,9 +158,7 @@ const Settings = () => {
 
         <Card>
           <View style={styles.settingGroup}>
-            <Text
-              style={[styles.settingLabel, { color: colours.alt_foreground }]}
-            >
+            <Text style={styles.settingLabel}>
               Send Reminder
             </Text>
             <Switch
@@ -102,13 +175,17 @@ const Settings = () => {
 
         <Card>
           <View style={styles.settingGroup}>
-            <Text
-              style={[styles.settingLabel, { color: colours.alt_foreground }]}
-            >
+            <Text style={styles.settingLabel}>
               Reminder Time
             </Text>
-            <Pressable onPress={() => setShowTimePicker(true)}>
-              <Text style={[styles.timeText, { color: colours.alt_foreground }]}>
+            <Pressable
+              onPress={() => setShowTimePicker(true)}
+              style={styles.timeButton}
+              android_ripple={{
+                color: colours.alt_background,
+              }}
+            >
+              <Text style={styles.timeText}>
                 {settings.reminderTime}
               </Text>
             </Pressable>
@@ -132,72 +209,15 @@ const Settings = () => {
       </ScrollView>
 
       <View style={styles.versionContainer}>
-        <Text style={[styles.versionText, { color: colours.alt_foreground }]}>
+        <Text style={styles.versionText}>
           App Version: {Application.nativeApplicationVersion}
         </Text>
-        <Text style={[styles.versionText, { color: colours.alt_foreground }]}>
+        <Text style={styles.versionText}>
           Build Version: {Application.nativeBuildVersion}
         </Text>
       </View>
-
-
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 30,
-    paddingTop: 40,
-  },
-  content: {
-    gap: 20,
-    paddingBottom: 40,
-  },
-  title: {
-    fontSize: 24,
-    fontFamily: "ZenDots",
-    marginBottom: 20,
-    marginTop: 20,
-  },
-  settingGroup: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
-  },
-  settingLabel: {
-    fontFamily: "ZenDots",
-    fontSize: 14,
-  },
-  settingValue: {
-    fontFamily: "ZenDots",
-    fontSize: 14,
-  },
-  input: {
-    fontFamily: "ZenDots",
-    fontSize: 14,
-    textAlign: "right",
-    minWidth: 80,
-  },
-  timeText: {
-    fontFamily: "ZenDots",
-    fontSize: 14,
-    textAlign: "right",
-    minWidth: 80,
-  },
-
-  versionContainer: {
-    alignItems: "center",
-    paddingBottom: 20,
-    gap: 4,
-  },
-  versionText: {
-    fontFamily: "ZenDots",
-    fontSize: 12,
-    opacity: 0.7,
-  },
-});
 
 export default Settings;
