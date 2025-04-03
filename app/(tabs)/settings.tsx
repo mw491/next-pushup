@@ -6,7 +6,10 @@ import {
   TextInput,
   StyleSheet,
   ScrollView,
+  Pressable,
+  Platform,
 } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import {
   readAllData,
   updateSettings,
@@ -22,6 +25,7 @@ const Settings = () => {
     sendReminder: true,
     reminderTime: "12:00",
   });
+  const [showTimePicker, setShowTimePicker] = useState(false);
 
   useEffect(() => {
     const loadSettings = async () => {
@@ -36,6 +40,16 @@ const Settings = () => {
     const newSettings = { ...settings, [key]: value };
     setSettings(newSettings);
     updateSettings(newSettings);
+  };
+
+  const handleTimeChange = (_event: any, selectedDate?: Date) => {
+    setShowTimePicker(Platform.OS === 'ios');
+    if (selectedDate) {
+      const hours = selectedDate.getHours().toString().padStart(2, '0');
+      const minutes = selectedDate.getMinutes().toString().padStart(2, '0');
+      const timeString = `${hours}:${minutes}`;
+      updateSetting("reminderTime", timeString);
+    }
   };
 
   const colours = useColours(); // Use the useColours hook to get the current color scheme
@@ -93,11 +107,26 @@ const Settings = () => {
             >
               Reminder Time
             </Text>
-            <TextInput
-              style={[styles.input, { color: colours.alt_foreground }]}
-              value={settings.reminderTime}
-              onChangeText={(text) => updateSetting("reminderTime", text)}
-            />
+            <Pressable onPress={() => setShowTimePicker(true)}>
+              <Text style={[styles.timeText, { color: colours.alt_foreground }]}>
+                {settings.reminderTime}
+              </Text>
+            </Pressable>
+            {showTimePicker && (
+              <DateTimePicker
+                value={(() => {
+                  const [hours, minutes] = settings.reminderTime.split(':').map(Number);
+                  const date = new Date();
+                  date.setHours(hours);
+                  date.setMinutes(minutes);
+                  return date;
+                })()}
+                mode="time"
+                is24Hour={true}
+                display="default"
+                onChange={handleTimeChange}
+              />
+            )}
           </View>
         </Card>
       </ScrollView>
@@ -147,6 +176,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   input: {
+    fontFamily: "ZenDots",
+    fontSize: 14,
+    textAlign: "right",
+    minWidth: 80,
+  },
+  timeText: {
     fontFamily: "ZenDots",
     fontSize: 14,
     textAlign: "right",
