@@ -29,7 +29,7 @@
       "translucent": false
     },
     "androidNavigationBar": {
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#111111"
     },
     "plugins": [
       "expo-router",
@@ -60,6 +60,14 @@
                 "light": "#222222",
                 "dark": "#F9F9F9"
               }
+            },
+            "colorAccent": {
+              "light": "#222222",
+              "dark": "#F9F9F9"
+            },
+            "textColorPrimary": {
+              "light": "#111111",
+              "dark": "#F5F5F5"
             }
           }
         }

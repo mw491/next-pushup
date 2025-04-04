@@ -168,7 +168,7 @@ const Settings = () => {
                 false: colours.background,
                 true: colours.foreground,
               }}
-              thumbColor={colours.alt_background}
+              thumbColor={colours.alt_foreground}
             />
           </View>
         </Card>
