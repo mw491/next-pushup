@@ -29,9 +29,42 @@
       "translucent": false
     },
     "androidNavigationBar": {
-      "backgroundColor": "#111111"
+      "backgroundColor": "#ffffff"
     },
-    "plugins": ["expo-router", "expo-splash-screen", "expo-font"],
+    "plugins": [
+      "expo-router",
+      "expo-splash-screen",
+      "expo-font",
+      [
+        "@react-native-community/datetimepicker",
+        {
+          "android": {
+            "timePicker": {
+              "headerBackground": {
+                "light": "#E5E5E5",
+                "dark": "#222222"
+              },
+              "background": {
+                "light": "#F5F5F5",
+                "dark": "#111111"
+              },
+              "numbersBackgroundColor": {
+                "light": "#E5E5E5",
+                "dark": "#222222"
+              },
+              "numbersTextColor": {
+                "light": "#111111",
+                "dark": "#F5F5F5"
+              },
+              "numbersSelectorColor": {
+                "light": "#222222",
+                "dark": "#F9F9F9"
+              }
+            }
+          }
+        }
+      ]
+    ],
     "experiments": {
       "typedRoutes": true
     },
