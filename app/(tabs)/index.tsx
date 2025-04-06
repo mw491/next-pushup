@@ -1,25 +1,15 @@
-import {
-  Text,
-  View,
-  StyleSheet,
-  ScrollView,
-  RefreshControl,
-} from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import useColours from "@/colours";
 import TodayPushups from "@/components/TodayPushups";
 import Stat from "@/components/Stat";
-import { useAppData } from "../_layout";
-import { useCallback, useState } from "react";
+import { store$ } from "@/storage";
+import { use$ } from "@legendapp/state/react";
 
 export default function Index() {
   const colours = useColours();
-  const { data: appData, refreshData } = useAppData();
-  const [refreshing, setRefreshing] = useState(false);
-
-  const onRefresh = useCallback(async () => {
-    setRefreshing(true);
-    await refreshData().then(() => setRefreshing(false));
-  }, []);
+  const pushups = use$(store$.pushups);
+  const todayPushups = use$(store$.todayPushups);
+  const totalPushups = use$(store$.totalPushups);
 
   const styles = StyleSheet.create({
     container: {
@@ -42,34 +32,18 @@ export default function Index() {
     },
   });
 
-  // Calculate statistics from appData
+  // Calculate statistics
   const personalBest = Math.max(
-    ...appData.pushupData.flatMap((day) => day.sets.map((set) => set.pushups)),
+    ...pushups.flatMap((day) => day.sets.map((set) => set.pushups)),
     0
   );
 
-  const totalSets = appData.pushupData.reduce(
-    (acc, day) => acc + day.sets.length,
-    0
-  );
-
-  const totalPushups = appData.pushupData.reduce(
-    (acc, day) =>
-      acc + day.sets.reduce((setAcc, set) => setAcc + set.pushups, 0),
-    0
-  );
+  const totalSets = pushups.reduce((acc, day) => acc + day.sets.length, 0);
 
   const setAverage = totalSets > 0 ? Math.round(totalPushups / totalSets) : 0;
 
-  // Get today's total
-  const now = new Date();
-  const today = now.toLocaleDateString("en-GB");
-  const todayEntry = appData.pushupData.find((day) => day.date === today);
-  const todayTotal = todayEntry
-    ? todayEntry.sets.reduce((acc, set) => acc + set.pushups, 0)
-    : 0;
-
   // Get week, month, and year totals
+  const now = new Date();
   const startOfWeek = new Date(now);
   startOfWeek.setDate(now.getDate() - now.getDay()); // Set to Sunday
   startOfWeek.setHours(0, 0, 0, 0);
@@ -77,9 +51,10 @@ export default function Index() {
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
   const startOfYear = new Date(now.getFullYear(), 0, 1);
 
-  const weekTotal = appData.pushupData
+  const weekTotal = pushups
     .filter((day) => {
-      const date = new Date(day.date.split("/").reverse().join("-"));
+      const [d, m, y] = day.date.split("/").map(Number);
+      const date = new Date(y, m - 1, d);
       return date >= startOfWeek;
     })
     .reduce(
@@ -88,9 +63,10 @@ export default function Index() {
       0
     );
 
-  const monthTotal = appData.pushupData
+  const monthTotal = pushups
     .filter((day) => {
-      const date = new Date(day.date.split("/").reverse().join("-"));
+      const [d, m, y] = day.date.split("/").map(Number);
+      const date = new Date(y, m - 1, d);
       return date >= startOfMonth;
     })
     .reduce(
@@ -99,9 +75,10 @@ export default function Index() {
       0
     );
 
-  const yearTotal = appData.pushupData
+  const yearTotal = pushups
     .filter((day) => {
-      const date = new Date(day.date.split("/").reverse().join("-"));
+      const [d, m, y] = day.date.split("/").map(Number);
+      const date = new Date(y, m - 1, d);
       return date >= startOfYear;
     })
     .reduce(
@@ -111,35 +88,28 @@ export default function Index() {
     );
 
   return (
-    <ScrollView
-      scrollEnabled={false}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
-      <View style={styles.container}>
-        <Text style={styles.title}>NEXT PUSHUP</Text>
-        <TodayPushups count={todayTotal} />
-        <View style={{ flexDirection: "row", gap: 10 }}>
-          <View style={{ flex: 1 }}>
-            <Stat label="personal best" value={personalBest} />
-          </View>
-          <View style={{ flex: 1 }}>
-            <Stat label="set average" value={setAverage} />
-          </View>
+    <View style={styles.container}>
+      <Text style={styles.title}>NEXT PUSHUP</Text>
+      <TodayPushups count={todayPushups} />
+      <View style={{ flexDirection: "row", gap: 10 }}>
+        <View style={{ flex: 1 }}>
+          <Stat label="personal best" value={personalBest} />
         </View>
-        <View style={{ flexDirection: "row", gap: 10, alignItems: "stretch" }}>
-          <View style={{ flex: 1 }}>
-            <Stat label="this week" value={weekTotal} />
-          </View>
-          <View style={{ flex: 1 }}>
-            <Stat label="this month" value={monthTotal} />
-          </View>
-          <View style={{ flex: 1 }}>
-            <Stat label="this year" value={yearTotal} />
-          </View>
+        <View style={{ flex: 1 }}>
+          <Stat label="set average" value={setAverage} />
         </View>
       </View>
-    </ScrollView>
+      <View style={{ flexDirection: "row", gap: 10, alignItems: "stretch" }}>
+        <View style={{ flex: 1 }}>
+          <Stat label="this week" value={weekTotal} />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Stat label="this month" value={monthTotal} />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Stat label="this year" value={yearTotal} />
+        </View>
+      </View>
+    </View>
   );
 }

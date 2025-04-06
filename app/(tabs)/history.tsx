@@ -1,10 +1,11 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import useColours from "@/colours";
-import { useAppData } from "../_layout";
+import { store$ } from "@/storage";
+import { use$ } from "@legendapp/state/react";
 
 export default function History() {
   const colours = useColours();
-  const { data: appData } = useAppData();
+  const pushups = use$(store$.pushups);
 
   const styles = StyleSheet.create({
     container: {
@@ -21,59 +22,42 @@ export default function History() {
       marginTop: 20,
     },
     content: {
+      gap: 20,
       paddingBottom: 40,
     },
     setsList: {
-      width: "100%",
       gap: 20,
     },
     dayContainer: {
-      marginBottom: 20,
+      backgroundColor: colours.alt_background,
+      borderRadius: 10,
+      overflow: "hidden",
     },
     dateHeader: {
-      backgroundColor: colours.alt_background,
-      borderRadius: 12,
-      padding: 16,
-      marginBottom: 10,
-      width: "100%",
+      backgroundColor: colours.foreground,
+      padding: 15,
     },
     dateText: {
-      color: colours.foreground,
+      color: colours.background,
       fontFamily: "ZenDots",
-      textAlign: "center",
+      fontSize: 14,
     },
     setItem: {
       flexDirection: "row",
       justifyContent: "space-between",
-      paddingVertical: 15,
-      paddingHorizontal: 10,
+      padding: 15,
       borderBottomWidth: 1,
       borderBottomColor: colours.foreground + "22",
     },
     setText: {
       color: colours.foreground,
       fontFamily: "ZenDots",
-      fontSize: 18,
-    },
-    emptyText: {
-      color: colours.foreground,
-      fontFamily: "ZenDots",
-      fontSize: 18,
-      textAlign: "center",
-      marginTop: 50,
+      fontSize: 14,
     },
   });
 
-  const formatTime = (isoString: string) => {
-    const date = new Date(isoString);
-    return date.toLocaleTimeString("en-GB", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
-  const getDayOfWeek = (dateString: string) => {
-    const [day, month, year] = dateString.split("/").map(Number);
+  const getDayOfWeek = (dateStr: string) => {
+    const [day, month, year] = dateStr.split("/").map(Number);
     const date = new Date(year, month - 1, day);
     return date.toLocaleDateString("en-GB", { weekday: "long" });
   };
@@ -82,9 +66,9 @@ export default function History() {
     <View style={styles.container}>
       <Text style={styles.title}>PUSHUP HISTORY</Text>
       <ScrollView contentContainerStyle={styles.content}>
-        {appData.pushupData.length > 0 ? (
+        {pushups.length > 0 ? (
           <View style={styles.setsList}>
-            {appData.pushupData
+            {pushups
               .sort((a, b) => {
                 // Sort by date descending (newest first)
                 const [aDay, aMonth, aYear] = a.date.split("/").map(Number);
@@ -118,9 +102,7 @@ export default function History() {
                         <Text style={styles.setText}>
                           {set.pushups} pushups
                         </Text>
-                        <Text style={styles.setText}>
-                          {formatTime(set.time)}
-                        </Text>
+                        <Text style={styles.setText}>{set.time}</Text>
                       </View>
                     ))}
                   </View>
@@ -128,7 +110,9 @@ export default function History() {
               })}
           </View>
         ) : (
-          <Text style={styles.emptyText}>No pushup data yet</Text>
+          <Text style={[styles.setText, { textAlign: "center" }]}>
+            No pushups recorded yet
+          </Text>
         )}
       </ScrollView>
     </View>

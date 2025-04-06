@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -10,23 +10,16 @@ import {
   Platform,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import {
-  readAllData,
-  updateSettings,
-  UserSettings,
-} from "../../storageUtils"; // Adjust path as necessary
-import useColours from "../../colours"; // Import the useColours hook
+import useColours from "../../colours";
 import Card from "@/components/Card";
 import * as Application from "expo-application";
+import { store$ } from "@/storage";
+import { use$ } from "@legendapp/state/react";
 
 const Settings = () => {
-  const [settings, setSettings] = useState<UserSettings>({
-    dailyGoal: 30,
-    sendReminder: true,
-    reminderTime: "12:00",
-  });
+  const settings = use$(store$.settings);
   const [showTimePicker, setShowTimePicker] = useState(false);
-  const colours = useColours(); // Use the useColours hook to get the current color scheme
+  const colours = useColours();
 
   const styles = StyleSheet.create({
     container: {
@@ -83,8 +76,8 @@ const Settings = () => {
       paddingVertical: 6,
       paddingHorizontal: 12,
       minWidth: 100,
-      alignItems: 'center',
-      justifyContent: 'center',
+      alignItems: "center",
+      justifyContent: "center",
     },
     switchTrackColorFalse: {
       backgroundColor: colours.background,
@@ -108,49 +101,32 @@ const Settings = () => {
     },
   });
 
-  useEffect(() => {
-    const loadSettings = async () => {
-      const data = await readAllData();
-      setSettings(data.userSettings);
-    };
-
-    loadSettings();
-  }, []);
-
-  const updateSetting = (key: keyof UserSettings, value: any) => {
-    const newSettings = { ...settings, [key]: value };
-    setSettings(newSettings);
-    updateSettings(newSettings);
-  };
-
   const handleTimeChange = (_event: any, selectedDate?: Date) => {
-    setShowTimePicker(Platform.OS === 'ios');
+    setShowTimePicker(Platform.OS === "ios");
     if (selectedDate) {
-      const hours = selectedDate.getHours().toString().padStart(2, '0');
-      const minutes = selectedDate.getMinutes().toString().padStart(2, '0');
+      const hours = selectedDate.getHours().toString().padStart(2, "0");
+      const minutes = selectedDate.getMinutes().toString().padStart(2, "0");
       const timeString = `${hours}:${minutes}`;
-      updateSetting("reminderTime", timeString);
+      store$.updateSettings({ ...settings, reminderTime: timeString });
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>
-        SETTINGS
-      </Text>
+      <Text style={styles.title}>SETTINGS</Text>
       <ScrollView contentContainerStyle={styles.content}>
-
         <Card>
           <View style={styles.settingGroup}>
-            <Text style={styles.settingLabel}>
-              Daily Goal
-            </Text>
+            <Text style={styles.settingLabel}>Daily Goal</Text>
             <TextInput
               style={styles.input}
               keyboardType="number-pad"
               value={settings.dailyGoal.toString()}
               onChangeText={(text) =>
-                updateSetting("dailyGoal", parseInt(text, 10))
+                store$.updateSettings({
+                  ...settings,
+                  dailyGoal: parseInt(text, 10),
+                })
               }
             />
           </View>
@@ -158,12 +134,12 @@ const Settings = () => {
 
         <Card>
           <View style={styles.settingGroup}>
-            <Text style={styles.settingLabel}>
-              Send Reminder
-            </Text>
+            <Text style={styles.settingLabel}>Send Reminder</Text>
             <Switch
               value={settings.sendReminder}
-              onValueChange={(value) => updateSetting("sendReminder", value)}
+              onValueChange={(value) =>
+                store$.updateSettings({ ...settings, sendReminder: value })
+              }
               trackColor={{
                 false: colours.background,
                 true: colours.foreground,
@@ -175,9 +151,7 @@ const Settings = () => {
 
         <Card>
           <View style={styles.settingGroup}>
-            <Text style={styles.settingLabel}>
-              Reminder Time
-            </Text>
+            <Text style={styles.settingLabel}>Reminder Time</Text>
             <Pressable
               onPress={() => setShowTimePicker(true)}
               style={styles.timeButton}
@@ -185,14 +159,14 @@ const Settings = () => {
                 color: colours.alt_background,
               }}
             >
-              <Text style={styles.timeText}>
-                {settings.reminderTime}
-              </Text>
+              <Text style={styles.timeText}>{settings.reminderTime}</Text>
             </Pressable>
             {showTimePicker && (
               <DateTimePicker
                 value={(() => {
-                  const [hours, minutes] = settings.reminderTime.split(':').map(Number);
+                  const [hours, minutes] = settings.reminderTime
+                    .split(":")
+                    .map(Number);
                   const date = new Date();
                   date.setHours(hours);
                   date.setMinutes(minutes);

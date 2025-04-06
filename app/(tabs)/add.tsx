@@ -1,18 +1,18 @@
 import { Pressable, Text, View, StyleSheet, ScrollView } from "react-native";
 import useColours from "@/colours";
 import { useState } from "react";
-import { addPushup } from "@/storageUtils";
+import { store$ } from "@/storage";
 import { router } from "expo-router";
-import { useAppData } from "../_layout";
+import { use$ } from "@legendapp/state/react";
 
 export default function AddPushup() {
   const [count, setCount] = useState(0);
   const colours = useColours();
-  const { refreshData, data: appData } = useAppData();
+  const pushups = use$(store$.pushups);
 
   // Get today's sets
   const today = new Date().toLocaleDateString("en-GB");
-  const todayEntry = appData.pushupData.find((day) => day.date === today);
+  const todayEntry = pushups.find((day) => day.date === today);
   const todaySets = todayEntry?.sets || [];
 
   const styles = StyleSheet.create({
@@ -76,55 +76,60 @@ export default function AddPushup() {
     },
     textSave: {
       color: count > 0 ? colours.background : colours.foreground,
-      opacity: count == 0 ? 0.5 : 1,
       fontFamily: "ZenDots",
-      fontSize: 24,
-      overflow: "hidden",
+      fontSize: 16,
     },
     counter: {
-      width: "90%",
       flexDirection: "row",
-      justifyContent: "space-around",
       alignItems: "center",
       gap: 20,
     },
-    setsList: {
+    todayContainer: {
       width: "90%",
-      alignSelf: "center",
+      gap: 10,
     },
-    setItem: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      paddingVertical: 10,
-      borderBottomWidth: 1,
-      borderBottomColor: colours.foreground + "22",
-    },
-    setText: {
+    todayTitle: {
       color: colours.foreground,
       fontFamily: "ZenDots",
       fontSize: 16,
+      opacity: 0.7,
+    },
+    todaySetContainer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      backgroundColor: colours.alt_background,
+      padding: 15,
+      borderRadius: 10,
+    },
+    todaySetText: {
+      color: colours.foreground,
+      fontFamily: "ZenDots",
+      fontSize: 14,
     },
   });
 
   const handleSave = async () => {
     if (count > 0) {
-      setCount(0);
-      const today = new Date().toLocaleDateString("en-GB");
-      await addPushup({
-        date: today,
-        sets: [{ pushups: count, time: new Date().toISOString() }],
+      const now = new Date();
+      const time = now.toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
       });
-      await refreshData(); // Refresh the app data after adding new entry
-      router.back();
-    }
-  };
 
-  const formatTime = (isoString: string) => {
-    const date = new Date(isoString);
-    return date.toLocaleTimeString("en-GB", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+      store$.addPushup({
+        date: today,
+        sets: [
+          {
+            pushups: count,
+            time,
+          },
+        ],
+      });
+
+      setCount(0);
+      router.push("/");
+    }
   };
 
   return (
@@ -175,16 +180,15 @@ export default function AddPushup() {
             <Text style={styles.textSave}>save set</Text>
           </Pressable>
         </View>
+
         {todaySets.length > 0 && (
-          <View style={styles.setsList}>
-            <Text style={[styles.setText, { marginBottom: 10 }]}>
-              today's sets:
-            </Text>
-            {todaySets.map((item, index) => (
-              <View key={index} style={styles.setItem}>
-                <Text style={styles.setText}>set {index + 1}</Text>
-                <Text style={styles.setText}>{item.pushups} pushups</Text>
-                <Text style={styles.setText}>{formatTime(item.time)}</Text>
+          <View style={styles.todayContainer}>
+            <Text style={styles.todayTitle}>Today's Sets</Text>
+            {todaySets.map((set, index) => (
+              <View key={index} style={styles.todaySetContainer}>
+                <Text style={styles.todaySetText}>Set {index + 1}</Text>
+                <Text style={styles.todaySetText}>{set.pushups} pushups</Text>
+                <Text style={styles.todaySetText}>{set.time}</Text>
               </View>
             ))}
           </View>
