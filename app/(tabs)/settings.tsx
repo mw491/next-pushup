@@ -101,7 +101,7 @@ const Settings = () => {
     },
   });
 
-  const handleTimeChange = (_event: any, selectedDate?: Date) => {
+  const handleTimeChange = (selectedDate?: Date) => {
     setShowTimePicker(Platform.OS === "ios");
     if (selectedDate) {
       const hours = selectedDate.getHours().toString().padStart(2, "0");
