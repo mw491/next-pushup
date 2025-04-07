@@ -76,6 +76,7 @@ export default function AddPushup() {
     },
     textSave: {
       color: count > 0 ? colours.background : colours.foreground,
+      opacity: count == 0 ? 0.5 : 1,
       fontFamily: "ZenDots",
       fontSize: 16,
     },
