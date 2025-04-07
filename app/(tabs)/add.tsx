@@ -56,7 +56,7 @@ export default function AddPushup() {
       borderRadius: 10,
     },
     buttonSaveContainer: {
-      width: "90%",
+      width: "100%",
       borderRadius: 10,
       overflow: "hidden",
       backgroundColor: colours.alt_background,
@@ -86,7 +86,7 @@ export default function AddPushup() {
       gap: 20,
     },
     todayContainer: {
-      width: "90%",
+      width: "100%",
       gap: 10,
     },
     todayTitle: {
