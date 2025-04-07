@@ -97,7 +97,15 @@ export default function History() {
                   </Text>
                 </View>
                 {day.sets.map((set, index) => (
-                  <View key={index} style={styles.setItem}>
+                  <View
+                    key={index}
+                    style={[
+                      styles.setItem,
+                      index === day.sets.length - 1
+                        ? { borderBottomWidth: 0 }
+                        : {},
+                    ]}
+                  >
                     <Text style={styles.setText}>set {index + 1}</Text>
                     <Text style={styles.setText}>{set.pushups} pushups</Text>
                     <Text style={styles.setText}>{set.time}</Text>
