@@ -9,7 +9,7 @@ import {
   Pressable,
   Platform,
 } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import DatePicker from "react-native-date-picker";
 import useColours from "../../colours";
 import Card from "@/components/Card";
 import * as Application from "expo-application";
@@ -161,23 +161,23 @@ const Settings = () => {
             >
               <Text style={styles.timeText}>{settings.reminderTime}</Text>
             </Pressable>
-            {showTimePicker && (
-              <DateTimePicker
-                value={(() => {
-                  const [hours, minutes] = settings.reminderTime
-                    .split(":")
-                    .map(Number);
-                  const date = new Date();
-                  date.setHours(hours);
-                  date.setMinutes(minutes);
-                  return date;
-                })()}
-                mode="time"
-                is24Hour={true}
-                display="default"
-                onChange={handleTimeChange}
-              />
-            )}
+            <DatePicker
+              modal
+              mode="time"
+              title="Select time to send reminder"
+              date={(() => {
+                const [hours, minutes] = settings.reminderTime
+                  .split(":")
+                  .map(Number);
+                const date = new Date();
+                date.setHours(hours);
+                date.setMinutes(minutes);
+                return date;
+              })()}
+              open={showTimePicker}
+              onCancel={() => setShowTimePicker(false)}
+              onConfirm={handleTimeChange}
+            />
           </View>
         </Card>
       </ScrollView>
