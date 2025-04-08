@@ -59,6 +59,9 @@ const Settings = () => {
       fontSize: 14,
       color: colours.alt_foreground,
     },
+    reminderTime: {
+      opacity: settings.sendReminder ? 1 : 0.3,
+    },
     input: {
       fontFamily: "ZenDots",
       fontSize: 14,
@@ -167,7 +170,7 @@ const Settings = () => {
         </Card>
 
         <Card>
-          <View style={styles.settingGroup}>
+          <View style={[styles.settingGroup, styles.reminderTime]}>
             <Text style={styles.settingLabel}>Reminder Time</Text>
             <Pressable
               onPress={() => setShowTimePicker(true)}
