@@ -15,6 +15,10 @@ import Card from "@/components/Card";
 import * as Application from "expo-application";
 import { store$ } from "@/storage";
 import { use$ } from "@legendapp/state/react";
+import {
+  scheduleReminderNotification,
+  cancelScheduledNotifications,
+} from "@/utils/notifications";
 
 const Settings = () => {
   const settings = use$(store$.settings);
@@ -101,13 +105,18 @@ const Settings = () => {
     },
   });
 
-  const handleTimeChange = (selectedDate?: Date) => {
+  const handleTimeChange = async (selectedDate?: Date) => {
     setShowTimePicker(Platform.OS === "ios");
     if (selectedDate) {
       const hours = selectedDate.getHours().toString().padStart(2, "0");
       const minutes = selectedDate.getMinutes().toString().padStart(2, "0");
       const timeString = `${hours}:${minutes}`;
       store$.updateSettings({ ...settings, reminderTime: timeString });
+
+      // Schedule notification with new time if reminders are enabled
+      if (settings.sendReminder) {
+        await scheduleReminderNotification(timeString);
+      }
     }
   };
 
@@ -137,9 +146,17 @@ const Settings = () => {
             <Text style={styles.settingLabel}>Send Reminder</Text>
             <Switch
               value={settings.sendReminder}
-              onValueChange={(value) =>
-                store$.updateSettings({ ...settings, sendReminder: value })
-              }
+              onValueChange={async (value) => {
+                store$.updateSettings({ ...settings, sendReminder: value });
+
+                if (value) {
+                  // Schedule notification if enabled
+                  await scheduleReminderNotification(settings.reminderTime);
+                } else {
+                  // Cancel notifications if disabled
+                  await cancelScheduledNotifications();
+                }
+              }}
               trackColor={{
                 false: colours.background,
                 true: colours.foreground,
@@ -155,6 +172,7 @@ const Settings = () => {
             <Pressable
               onPress={() => setShowTimePicker(true)}
               style={styles.timeButton}
+              disabled={!settings.sendReminder}
               android_ripple={{
                 color: colours.alt_background,
               }}

@@ -2,10 +2,11 @@ import { Slot } from "expo-router";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import useColours from "@/colours";
 import { useFonts } from "expo-font";
-import { View } from "react-native";
+
 import * as SplashScreen from "expo-splash-screen";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { enableReactUse } from "@legendapp/state/config/enableReactUse";
+import { initializeNotifications } from "@/utils/notifications";
 
 // Enable legend-state React hooks
 enableReactUse();
@@ -23,6 +24,13 @@ export default function RootLayout() {
     if (fontsLoaded) {
       // This tells the splash screen to hide immediately
       await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  useEffect(() => {
+    if (fontsLoaded) {
+      // Initialize notifications when the app is loaded
+      initializeNotifications();
     }
   }, [fontsLoaded]);
 
