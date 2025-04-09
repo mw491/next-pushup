@@ -1,7 +1,7 @@
 import { Pressable, Text, View, StyleSheet, ScrollView } from "react-native";
-import useColours from "@/colours";
+import useColours from "@/utils/colours";
 import { useState } from "react";
-import { store$ } from "@/storage";
+import { store$ } from "@/utils/storage";
 import { router } from "expo-router";
 import { use$ } from "@legendapp/state/react";
 

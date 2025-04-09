@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react-native";
 import { View } from "react-native";
 import History from "../app/(tabs)/history";
-import { store$ } from "../storage";
+import { store$ } from "../utils/storage";
 import { use$ } from "@legendapp/state/react";
 
 // Mock the store

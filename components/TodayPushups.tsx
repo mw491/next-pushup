@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet, useWindowDimensions } from "react-native";
-import useColours from "@/colours";
+import useColours from "@/utils/colours";
 import Card from "./Card";
 import StatNumber from "./StatNumber";
 

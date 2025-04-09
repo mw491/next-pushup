@@ -1,4 +1,4 @@
-import useColours from "@/colours";
+import useColours from "@/utils/colours";
 import { PropsWithChildren } from "react";
 import { View, StyleSheet } from "react-native";
 

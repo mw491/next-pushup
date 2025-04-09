@@ -1,6 +1,6 @@
 import React from "react";
 import { View, TouchableOpacity } from "react-native";
-import useColours from "@/colours";
+import useColours from "@/utils/colours";
 
 export default function TabBarComponent({
   state,

@@ -10,10 +10,10 @@ import {
   Platform,
 } from "react-native";
 import DatePicker from "react-native-date-picker";
-import useColours from "../../colours";
+import useColours from "../../utils/colours";
 import Card from "@/components/Card";
 import * as Application from "expo-application";
-import { store$ } from "@/storage";
+import { store$ } from "@/utils/storage";
 import { use$ } from "@legendapp/state/react";
 import {
   scheduleReminderNotification,

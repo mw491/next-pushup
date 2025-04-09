@@ -1,8 +1,8 @@
 import { Text, View, StyleSheet } from "react-native";
-import useColours from "@/colours";
+import useColours from "@/utils/colours";
 import TodayPushups from "@/components/TodayPushups";
 import Stat from "@/components/Stat";
-import { store$ } from "@/storage";
+import { store$ } from "@/utils/storage";
 import { use$ } from "@legendapp/state/react";
 
 export default function Index() {

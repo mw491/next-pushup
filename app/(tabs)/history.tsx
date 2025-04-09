@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet, ScrollView, FlatList } from "react-native";
-import useColours from "@/colours";
-import { store$ } from "@/storage";
+import { View, Text, StyleSheet, FlatList } from "react-native";
+import useColours from "@/utils/colours";
+import { store$ } from "@/utils/storage";
 import { use$ } from "@legendapp/state/react";
 
 export default function History() {

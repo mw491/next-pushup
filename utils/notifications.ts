@@ -1,6 +1,6 @@
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
-import { store$ } from '@/storage';
+import { store$ } from '@/utils/storage';
 
 // Configure notifications
 Notifications.setNotificationHandler({

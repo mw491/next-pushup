@@ -1,6 +1,6 @@
 import { Appearance } from 'react-native';
 import { useState, useEffect } from 'react';
-import useColours from '../colours';
+import useColours from '../utils/colours';
 
 // Mock the Appearance API
 jest.mock('react-native', () => ({
