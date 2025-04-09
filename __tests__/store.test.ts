@@ -1,4 +1,4 @@
-import { store$ } from '../utils/storage';
+import { store$ } from '@/utils/storage';
 import { observable } from '@legendapp/state';
 
 describe('Store Operations', () => {

@@ -10,7 +10,7 @@ import {
   Platform,
 } from "react-native";
 import DatePicker from "react-native-date-picker";
-import useColours from "../../utils/colours";
+import useColours from "@/utils/colours";
 import Card from "@/components/Card";
 import * as Application from "expo-application";
 import { store$ } from "@/utils/storage";

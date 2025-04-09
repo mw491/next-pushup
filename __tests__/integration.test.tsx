@@ -1,11 +1,11 @@
 import { render, screen, fireEvent } from "@testing-library/react-native";
 import { View } from "react-native";
-import History from "../app/(tabs)/history";
-import { store$ } from "../utils/storage";
+import History from "@/app/(tabs)/history";
+import { store$ } from "@/utils/storage";
 import { use$ } from "@legendapp/state/react";
 
 // Mock the store
-jest.mock("../utils/storage", () => ({
+jest.mock("@/utils/storage", () => ({
   store$: {
     pushups: {
       get: jest.fn(),

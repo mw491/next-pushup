@@ -1,8 +1,8 @@
 import React from "react";
-import StatNumber from "../components/StatNumber";
+import StatNumber from "@/components/StatNumber";
 
 // Mock the entire component to isolate the test
-jest.mock("../components/StatNumber", () => {
+jest.mock("@/components/StatNumber", () => {
   return function MockStatNumber() {
     return null;
   };
