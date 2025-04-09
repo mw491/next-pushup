@@ -4,7 +4,7 @@ import { Text, View } from "react-native";
 import Card from "../components/Card";
 
 // Mock dependencies
-jest.mock("../colours", () => ({
+jest.mock("../utils/colours", () => ({
   __esModule: true,
   default: () => ({
     alt_background: "#F5F5F5",

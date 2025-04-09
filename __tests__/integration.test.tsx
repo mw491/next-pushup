@@ -5,7 +5,7 @@ import { store$ } from "../utils/storage";
 import { use$ } from "@legendapp/state/react";
 
 // Mock the store
-jest.mock("../storage", () => ({
+jest.mock("../utils/storage", () => ({
   store$: {
     pushups: {
       get: jest.fn(),

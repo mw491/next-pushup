@@ -4,7 +4,7 @@ import { TouchableOpacity } from "react-native";
 import TabBarComponent from "../components/TabBarComponent";
 
 // Mock dependencies
-jest.mock("../colours", () => ({
+jest.mock("../utils/colours", () => ({
   __esModule: true,
   default: () => ({
     foreground: "#000000",
