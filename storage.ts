@@ -74,23 +74,40 @@ export const store$ = observable<Store>({
 
   // Actions
   addPushup: (newEntry: PushupData) => {
-    const pushups = store$.pushups.get();
-    const existingDateIndex = pushups.findIndex(
+    // Get current state once
+    const currentPushups = store$.pushups.get();
+
+    // Find existing entry for this date
+    const existingDateIndex = currentPushups.findIndex(
       (entry) => entry.date === newEntry.date
     );
 
+    let updatedPushups;
     if (existingDateIndex !== -1) {
-      // If entry for this date exists, append the new sets
-      const updatedPushups = [...pushups];
-      updatedPushups[existingDateIndex] = {
-        ...updatedPushups[existingDateIndex],
-        sets: [...updatedPushups[existingDateIndex].sets, ...newEntry.sets],
-      };
-      store$.pushups.set(updatedPushups);
+      // Create new array with merged sets for existing date
+      updatedPushups = currentPushups.map((entry, index) =>
+        index === existingDateIndex
+          ? {
+            ...entry,
+            sets: [...entry.sets, ...newEntry.sets].sort((a, b) =>
+              a.time.localeCompare(b.time)
+            ),
+          }
+          : entry
+      );
     } else {
-      // If no entry for this date exists, add new entry
-      store$.pushups.push(newEntry);
+      // Add new entry with sorted sets
+      updatedPushups = [
+        ...currentPushups,
+        {
+          ...newEntry,
+          sets: [...newEntry.sets].sort((a, b) => a.time.localeCompare(b.time))
+        }
+      ];
     }
+
+    // Update state atomically
+    store$.pushups.set(updatedPushups);
   },
 
   updateSettings: (newSettings: UserSettings) => {
