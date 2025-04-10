@@ -44,9 +44,7 @@ export default function AnimatedCounter({
 
   // Different container styles based on variant
   const containerStyle: ViewStyle =
-    variant === "large"
-      ? { width: "100%", overflow: "hidden" }
-      : { minWidth: 50 };
+    variant === "large" ? { width: "100%", overflow: "hidden" } : {};
 
   // Different text styles based on variant
   const textStyle =

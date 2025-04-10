@@ -7,6 +7,7 @@ import { use$ } from "@legendapp/state/react";
 
 export default function Index() {
   const colours = useColours();
+  const goal = use$(store$.settings.dailyGoal);
   const pushups = use$(store$.pushups);
   const todayPushups = use$(store$.todayPushups);
   const totalPushups = use$(store$.totalPushups);
@@ -87,10 +88,17 @@ export default function Index() {
       0
     );
 
+  const goalReached = totalPushups >= goal;
+  const remainingPushups = goal - todayPushups;
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>NEXT PUSHUP</Text>
-      <TodayPushups count={todayPushups} />
+      <TodayPushups
+        count={todayPushups}
+        goalReached={goalReached}
+        remainingPushups={remainingPushups}
+      />
       <View style={{ flexDirection: "row", gap: 10 }}>
         <View style={{ flex: 1 }}>
           <Stat label="personal best" value={personalBest} />
