@@ -100,7 +100,7 @@ export default function TodayPushups({
               <Text style={styles.goal}> pushups left</Text>
             </View>
           ) : (
-            <Text style={styles.goal}>Goal reached!</Text>
+            <Text style={styles.goal}>goal reached!</Text>
           )}
         </View>
       </View>

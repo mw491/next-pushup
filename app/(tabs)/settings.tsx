@@ -129,7 +129,7 @@ const Settings = () => {
       <ScrollView contentContainerStyle={styles.content}>
         <Card>
           <View style={styles.settingGroup}>
-            <Text style={styles.settingLabel}>Daily Goal</Text>
+            <Text style={styles.settingLabel}>daily goal</Text>
             <TextInput
               style={styles.input}
               keyboardType="number-pad"
@@ -146,7 +146,7 @@ const Settings = () => {
 
         <Card>
           <View style={styles.settingGroup}>
-            <Text style={styles.settingLabel}>Send Reminder</Text>
+            <Text style={styles.settingLabel}>send reminder</Text>
             <Switch
               value={settings.sendReminder}
               onValueChange={async (value) => {
@@ -171,7 +171,7 @@ const Settings = () => {
 
         <Card>
           <View style={[styles.settingGroup, styles.reminderTime]}>
-            <Text style={styles.settingLabel}>Reminder Time</Text>
+            <Text style={styles.settingLabel}>reminder time</Text>
             <Pressable
               onPress={() => setShowTimePicker(true)}
               style={styles.timeButton}
