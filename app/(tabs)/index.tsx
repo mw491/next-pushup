@@ -88,7 +88,7 @@ export default function Index() {
       0
     );
 
-  const goalReached = totalPushups >= goal;
+  const goalReached = todayPushups >= goal;
   const remainingPushups = goal - todayPushups;
 
   return (
