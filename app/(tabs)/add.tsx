@@ -85,6 +85,19 @@ export default function AddPushup() {
       alignItems: "center",
       gap: 20,
     },
+    buttonColumn: {
+      alignItems: "center",
+      gap: 10,
+    },
+    buttonSmall: {
+      width: 60,
+      height: 40,
+    },
+    textSmall: {
+      color: colours.foreground,
+      fontFamily: "ZenDots",
+      fontSize: 16,
+    },
     todayContainer: {
       width: "100%",
       gap: 10,
@@ -138,36 +151,70 @@ export default function AddPushup() {
       <Text style={styles.title}>LOG PUSHUP</Text>
       <ScrollView contentContainerStyle={styles.content} fadingEdgeLength={10}>
         <View style={styles.counter}>
-          <View style={styles.buttonContainer}>
-            <Pressable
-              style={styles.button}
-              android_ripple={{
-                color: colours.background,
-              }}
-              onPress={() => {
-                setCount(count + 1);
-              }}
-            >
-              <Text style={styles.text}>+</Text>
-            </Pressable>
+          <View style={styles.buttonColumn}>
+            <View style={styles.buttonContainer}>
+              <Pressable
+                style={styles.button}
+                android_ripple={{
+                  color: colours.background,
+                }}
+                onPress={() => {
+                  setCount(count + 1);
+                }}
+              >
+                <Text style={styles.text}>+</Text>
+              </Pressable>
+            </View>
+            <View style={styles.buttonContainer}>
+              <Pressable
+                style={[styles.button, styles.buttonSmall]}
+                android_ripple={{
+                  color: colours.background,
+                }}
+                onPress={() => {
+                  setCount(count + 10);
+                }}
+              >
+                <Text style={styles.textSmall}>+10</Text>
+              </Pressable>
+            </View>
           </View>
           <Text style={styles.number} adjustsFontSizeToFit numberOfLines={1}>
             {count}
           </Text>
-          <View style={styles.buttonContainer}>
-            <Pressable
-              style={styles.button}
-              android_ripple={{
-                color: colours.background,
-              }}
-              onPress={() => {
-                if (count > 0) {
-                  setCount(count - 1);
-                }
-              }}
-            >
-              <Text style={styles.text}>-</Text>
-            </Pressable>
+          <View style={styles.buttonColumn}>
+            <View style={styles.buttonContainer}>
+              <Pressable
+                style={styles.button}
+                android_ripple={{
+                  color: colours.background,
+                }}
+                onPress={() => {
+                  if (count > 0) {
+                    setCount(count - 1);
+                  }
+                }}
+              >
+                <Text style={styles.text}>-</Text>
+              </Pressable>
+            </View>
+            <View style={styles.buttonContainer}>
+              <Pressable
+                style={[styles.button, styles.buttonSmall]}
+                android_ripple={{
+                  color: colours.background,
+                }}
+                onPress={() => {
+                  if (count >= 10) {
+                    setCount(count - 10);
+                  } else if (count > 0) {
+                    setCount(0);
+                  }
+                }}
+              >
+                <Text style={styles.textSmall}>-10</Text>
+              </Pressable>
+            </View>
           </View>
         </View>
         <View style={styles.buttonSaveContainer}>
