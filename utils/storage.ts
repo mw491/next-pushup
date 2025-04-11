@@ -24,6 +24,7 @@ export interface UserSettings {
   dailyGoal: number;
   sendReminder: boolean;
   reminderTime: string;
+  onboardingCompleted: boolean;
 }
 
 export interface Store {
@@ -41,6 +42,7 @@ const DEFAULT_SETTINGS: UserSettings = {
   dailyGoal: 30,
   sendReminder: true,
   reminderTime: '12:00',
+  onboardingCompleted: false,
 };
 
 // Create global observable store
