@@ -6,6 +6,10 @@ import { router } from "expo-router";
 import { use$ } from "@legendapp/state/react";
 import { trackPushupLog } from "@/utils/posthog";
 
+/**
+ * Screen for adding new pushup sets
+ * Allows the user to count pushups and save them to their history
+ */
 export default function AddPushup() {
   const [count, setCount] = useState(0);
   const colours = useColours();
@@ -124,6 +128,11 @@ export default function AddPushup() {
     },
   });
 
+  /**
+   * Handle saving a new pushup set
+   * Adds the current count to today's pushups and tracks the event in analytics
+   * Only saves if count is greater than 0
+   */
   const handleSave = async () => {
     if (count > 0) {
       const now = new Date();

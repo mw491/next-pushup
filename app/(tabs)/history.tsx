@@ -3,6 +3,10 @@ import useColours from "@/utils/colours";
 import { store$ } from "@/utils/storage";
 import { use$ } from "@legendapp/state/react";
 
+/**
+ * History screen of the application
+ * Displays a chronological list of all pushup sets recorded by the user
+ */
 export default function History() {
   const colours = useColours();
   const pushups = use$(store$.pushups);

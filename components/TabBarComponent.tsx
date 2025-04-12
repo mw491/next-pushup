@@ -2,11 +2,26 @@ import React from "react";
 import { View, TouchableOpacity } from "react-native";
 import useColours from "@/utils/colours";
 
+/**
+ * Props for the TabBarComponent
+ */
+type TabBarProps = {
+  state: any;
+  descriptors: any;
+  navigation: any;
+};
+
+/**
+ * Custom tab bar component for the bottom navigation
+ * Provides a styled tab bar with proper theming and touch feedback
+ *
+ * @param props - Component props from React Navigation
+ */
 export default function TabBarComponent({
   state,
   descriptors,
   navigation,
-}: any) {
+}: TabBarProps) {
   const colours = useColours();
   return (
     <View

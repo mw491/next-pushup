@@ -20,6 +20,10 @@ import {
   cancelScheduledNotifications,
 } from "@/utils/notifications";
 
+/**
+ * Settings screen for the application
+ * Allows users to configure app preferences like daily goals and reminders
+ */
 const Settings = () => {
   const settings = use$(store$.settings);
   const [showTimePicker, setShowTimePicker] = useState(false);
@@ -108,6 +112,12 @@ const Settings = () => {
     },
   });
 
+  /**
+   * Handle time selection from the time picker
+   * Updates the reminder time in settings and reschedules notifications
+   *
+   * @param selectedDate - The date object containing the selected time
+   */
   const handleTimeChange = async (selectedDate?: Date) => {
     setShowTimePicker(Platform.OS === "ios");
     if (selectedDate) {

@@ -1,6 +1,10 @@
 import { Appearance, ColorSchemeName } from "react-native";
 import { useEffect, useState } from "react";
 
+/**
+ * Color scheme type definition
+ * Contains all colors used in the application
+ */
 type ColourScheme = {
   scheme: ColorSchemeName;
   primary: string;
@@ -10,6 +14,10 @@ type ColourScheme = {
   alt_background: string;
 };
 
+/**
+ * Hook to get the current color scheme based on system theme
+ * Automatically updates when system theme changes
+ */
 export default function useColours(): ColourScheme {
   const [scheme, setScheme] = useState<ColorSchemeName>(Appearance.getColorScheme());
 

@@ -11,7 +11,9 @@ Notifications.setNotificationHandler({
   }),
 });
 
-// Request permissions
+/**
+ * Request notification permissions from the user
+ */
 export async function requestNotificationPermissions() {
   const { status: existingStatus } = await Notifications.getPermissionsAsync();
   let finalStatus = existingStatus;
@@ -24,7 +26,11 @@ export async function requestNotificationPermissions() {
   return finalStatus === 'granted';
 }
 
-// Schedule daily reminder notification
+/**
+ * Schedule a daily reminder notification at the specified time
+ *
+ * @param time - Time in 24-hour format (HH:MM)
+ */
 export async function scheduleReminderNotification(time: string) {
   // Cancel any existing notifications first
   await cancelScheduledNotifications();
@@ -55,12 +61,17 @@ export async function scheduleReminderNotification(time: string) {
   });
 }
 
-// Cancel all scheduled notifications
+/**
+ * Cancel all scheduled notifications
+ */
 export async function cancelScheduledNotifications() {
   await Notifications.cancelAllScheduledNotificationsAsync();
 }
 
-// Initialize notifications on app start
+/**
+ * Initialize notifications on app start
+ * Requests permissions and schedules reminders if enabled in settings
+ */
 export async function initializeNotifications() {
   const hasPermission = await requestNotificationPermissions();
 

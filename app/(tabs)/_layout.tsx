@@ -6,6 +6,9 @@ import { Animated, ViewStyle } from "react-native";
 import TabBarComponent from "@/components/TabBarComponent";
 import useColours from "@/utils/colours";
 
+/**
+ * Props for the AnimatedTabIcon component
+ */
 interface AnimatedTabIconProps {
   name: React.ComponentProps<typeof Ionicons>["name"];
   color: string;
@@ -15,6 +18,12 @@ interface AnimatedTabIconProps {
   style?: ViewStyle;
 }
 
+/**
+ * Animated tab icon component for the bottom tab bar
+ * Provides scale and opacity animations when tabs are focused/unfocused
+ *
+ * @param props - Component props
+ */
 const AnimatedTabIcon = ({
   name,
   color,
@@ -62,6 +71,10 @@ const AnimatedTabIcon = ({
   );
 };
 
+/**
+ * Tab layout component for the main navigation
+ * Sets up the bottom tab navigation with custom styling and animations
+ */
 export default function TabLayout() {
   const colours = useColours();
   return (

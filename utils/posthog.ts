@@ -26,6 +26,8 @@ if (__DEV__) {
 
 /**
  * Initialize PostHog analytics
+ * Sets up system information and tracks initial app open
+ * Only runs in production builds with a valid API key
  */
 export const initializeAnalytics = () => {
   // Skip analytics in development
@@ -48,6 +50,7 @@ export const initializeAnalytics = () => {
 
 /**
  * Track app open event
+ * Records when the user opens the application
  */
 export const trackAppOpen = () => {
   if (IS_DEV || !posthog) return;
@@ -57,6 +60,9 @@ export const trackAppOpen = () => {
 
 /**
  * Track pushup log event
+ * Records when the user logs a new pushup set
+ *
+ * @param count - The number of pushups logged
  */
 export const trackPushupLog = (count: number) => {
   if (IS_DEV || !posthog) return;
@@ -68,6 +74,10 @@ export const trackPushupLog = (count: number) => {
 
 /**
  * Track error or crash
+ * Records application errors for debugging and monitoring
+ *
+ * @param error - The error object that was thrown
+ * @param additionalInfo - Optional additional context about the error
  */
 export const trackError = (error: Error, additionalInfo?: Record<string, any>) => {
   if (IS_DEV || !posthog) return;

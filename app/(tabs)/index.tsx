@@ -5,6 +5,10 @@ import Stat from "@/components/Stat";
 import { store$ } from "@/utils/storage";
 import { use$ } from "@legendapp/state/react";
 
+/**
+ * Home screen of the application
+ * Displays today's pushup count and various statistics
+ */
 export default function Index() {
   const colours = useColours();
   const goal = use$(store$.settings.dailyGoal);

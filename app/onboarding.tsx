@@ -15,6 +15,10 @@ import { store$ } from "@/utils/storage";
 import { scheduleReminderNotification } from "@/utils/notifications";
 import Card from "@/components/Card";
 
+/**
+ * Onboarding screen shown to first-time users
+ * Allows setting up initial preferences like daily goal and reminders
+ */
 export default function Onboarding() {
   const colours = useColours();
   const [dailyGoal, setDailyGoal] = useState("30");
@@ -98,6 +102,12 @@ export default function Onboarding() {
     },
   });
 
+  /**
+   * Handle time selection from the time picker
+   * Updates the reminder time state with the selected time
+   *
+   * @param selectedDate - The date object containing the selected time
+   */
   const handleTimeChange = (selectedDate?: Date) => {
     setShowTimePicker(Platform.OS === "ios");
     if (selectedDate) {
@@ -108,6 +118,10 @@ export default function Onboarding() {
     }
   };
 
+  /**
+   * Handle the start button press
+   * Saves user settings, schedules notifications if enabled, and navigates to the main app
+   */
   const handleStart = async () => {
     const settings = {
       dailyGoal: parseInt(dailyGoal, 10) || 30,
