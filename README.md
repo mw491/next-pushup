@@ -2,7 +2,7 @@
 
 A minimalist pushup tracking app to help you transform your game to the next level.
 
-![NEXT PUSHUP App](https://github.com/mw491/next-pushup/blob/main/assets/images/app-screenshot.jpgg)
+![NEXT PUSHUP App](assets/images/app-screenshot.jpg)
 
 ## Features
 
