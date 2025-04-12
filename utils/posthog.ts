@@ -4,15 +4,15 @@ import { Platform } from 'react-native';
 import Constants from 'expo-constants';
 
 // PostHog API key from environment variables
-const POSTHOG_API_KEY = Constants.expoConfig?.extra?.posthogApiKey;
+const POSTHOG_API_KEY = Constants.expoConfig?.extra?.posthogApiKey || process.env.EXPO_PUBLIC_POSTHOG_API_KEY;
 const POSTHOG_HOST = "https://eu.i.posthog.com";
 
 // Initialize PostHog if API key is provided
 const posthog = !POSTHOG_API_KEY ? null : new PostHog(POSTHOG_API_KEY, { host: POSTHOG_HOST });
 
 // Log analytics status in development
-if (__DEV__ && !POSTHOG_API_KEY) {
-  console.log('PostHog analytics disabled: No API key provided');
+if (__DEV__) {
+  console.log('PostHog analytics status:', POSTHOG_API_KEY ? 'enabled' : 'disabled (no API key)');
 }
 
 /**

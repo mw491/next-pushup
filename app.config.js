@@ -43,7 +43,7 @@ export default {
     typedRoutes: true,
   },
   extra: {
-    posthogApiKey: process.env.POSTHOG_API_KEY,
+    posthogApiKey: process.env.EXPO_PUBLIC_POSTHOG_API_KEY,
     router: {
       origin: false,
     },
