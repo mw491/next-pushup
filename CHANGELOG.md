@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 📦 **[APK]** - Requires downloading and installing a new APK
 - 🔄 **[OTA]** - Over-the-air update, automatically applied when opening the app
 
-## [1.0.0](https://github.com/mw491/next-pushup/releases/tag/v1.0.0) - 12/04/2024 - 📦 [APK]
+## [1.0.0](https://github.com/mw491/next-pushup/releases/tag/v1.0.0) • 12/04/2024 • 📦 [APK](https://github.com/mw491/next-pushup/releases/tag/v1.0.0)
 
 ### Added
 - Initial release of NEXT PUSHUP
@@ -33,7 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Template for future updates
 
-## [x.y.z] - YYYY-MM-DD - 📦 [APK] or 🔄 [OTA]
+## [x.y.z] • YYYY-MM-DD • 📦 [APK] or 🔄 [OTA]
 
 ### Added
 - New features that have been added
