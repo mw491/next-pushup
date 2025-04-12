@@ -1,50 +1,96 @@
-# Welcome to your Expo app 👋
+# NEXT PUSHUP
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A minimalist pushup tracking app to help you transform your game to the next level.
 
-## Get started
+![NEXT PUSHUP App](https://github.com/mw491/next-pushup/assets/app-screenshot.jpg)
 
-1. Install dependencies
+## Features
 
-   ```bash
-   npm install
-   ```
+- 📊 Track your daily pushup sets
+- 🎯 Set and monitor daily goals
+- 📈 View your pushup history and statistics
+- 🔔 Daily reminders to keep you consistent
+- 🌙 Automatic light/dark theme based on system settings
+- 📱 Works offline - all data stored locally on your device
 
-2. Start the app
+## Installation
 
-   ```bash
-    npx expo start
-   ```
+### Android
 
-In the output, you'll find options to open the app in a
+1. Download the latest APK from the [Releases](https://github.com/mw491/next-pushup/releases) page
+2. Install the APK on your Android device
+3. Allow installation from unknown sources if prompted
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Usage
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+1. **First Launch**: Complete the onboarding process to set your daily goal and reminder preferences
+2. **Log Pushups**: Tap the "+" tab to record your pushup sets
+3. **Track Progress**: View your statistics on the home screen
+4. **History**: Check your past performance in the history tab
+5. **Settings**: Adjust your daily goal and reminder settings
 
-## Get a fresh project
+## Updates
 
-When you're ready, run:
+This app uses two types of updates:
+
+1. **APK Updates** (Require reinstallation)
+   - Major version changes
+   - Updates that require new native code or permissions
+   - Available on the [Releases](https://github.com/mw491/next-pushup/releases) page
+
+2. **OTA Updates** (Over-the-Air, automatic)
+   - Minor improvements and bug fixes
+   - UI enhancements
+   - These are delivered automatically when you open the app with an internet connection
+
+## Development
+
+### Prerequisites
+
+- Node.js (v18 or newer)
+- npm or yarn
+- Expo CLI
+
+### Setup
 
 ```bash
-npm run reset-project
+# Clone the repository
+git clone https://github.com/mw491/next-pushup.git
+cd next-pushup
+
+# Install dependencies
+pnpm install
+
+# Start the development server
+pnpm expo start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Technologies
 
-## Learn more
+- [React Native](https://reactnative.dev/)
+- [Expo](https://expo.dev/)
+- [Legend State](https://legendapp.com/open-source/state/) for state management
+- [Expo Router](https://docs.expo.dev/router/introduction/) for navigation
+- [Expo Notifications](https://docs.expo.dev/versions/latest/sdk/notifications/) for reminders
+- [PostHog](https://posthog.com/) for analytics
 
-To learn more about developing your project with Expo, look at the following resources:
+## License
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+MIT License - See [LICENSE](LICENSE) for details.
 
-## Join the community
+## Privacy
 
-Join our community of developers creating universal apps.
+NEXT PUSHUP uses PostHog analytics to collect anonymous usage data that helps us improve the app. This includes:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- App opens
+- Pushup logs (count only)
+- Device type and operating system version
+- App performance metrics
+- Crash reports
+
+We do NOT collect:
+- Personal identifiers
+- Your workout history or patterns
+- Your reminder settings
+
+All your pushup data is stored locally on your device and is never transmitted to our servers except for anonymous analytics as described above.
