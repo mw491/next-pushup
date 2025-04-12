@@ -38,11 +38,12 @@ export default {
   notification: {
     icon: "./assets/images/adaptive-icon.png",
   },
-  plugins: ["expo-router", "expo-splash-screen", "expo-font"],
+  plugins: ["expo-router", "expo-splash-screen", "expo-font", "expo-localization"],
   experiments: {
     typedRoutes: true,
   },
   extra: {
+    posthogApiKey: process.env.POSTHOG_API_KEY,
     router: {
       origin: false,
     },

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { store$ } from "@/utils/storage";
 import { router } from "expo-router";
 import { use$ } from "@legendapp/state/react";
+import { trackPushupLog } from "@/utils/posthog";
 
 export default function AddPushup() {
   const [count, setCount] = useState(0);
@@ -140,6 +141,9 @@ export default function AddPushup() {
           },
         ],
       });
+
+      // Track pushup log event
+      trackPushupLog(count);
 
       setCount(0);
       router.push("/");
