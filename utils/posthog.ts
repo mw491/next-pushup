@@ -3,36 +3,24 @@ import * as Application from 'expo-application';
 import { Platform } from 'react-native';
 import Constants from 'expo-constants';
 
-// Check if we're in development mode
-const IS_DEV = process.env.APP_VARIANT === 'development' ||
-  process.env.NODE_ENV !== 'production' ||
-  __DEV__;
-
 // PostHog API key from environment variables
 const POSTHOG_API_KEY = Constants.expoConfig?.extra?.posthogApiKey;
 const POSTHOG_HOST = "https://eu.i.posthog.com";
 
-// Only initialize PostHog in production and if API key is provided
-const posthog = (IS_DEV || !POSTHOG_API_KEY) ? null : new PostHog(POSTHOG_API_KEY, { host: POSTHOG_HOST });
+// Initialize PostHog if API key is provided
+const posthog = !POSTHOG_API_KEY ? null : new PostHog(POSTHOG_API_KEY, { host: POSTHOG_HOST });
 
 // Log analytics status in development
-if (__DEV__) {
-  if (!POSTHOG_API_KEY) {
-    console.log('PostHog analytics disabled: No API key provided');
-  } else if (IS_DEV) {
-    console.log('PostHog analytics disabled in development mode');
-  }
+if (__DEV__ && !POSTHOG_API_KEY) {
+  console.log('PostHog analytics disabled: No API key provided');
 }
 
 /**
  * Initialize PostHog analytics
  * Sets up system information and tracks initial app open
- * Only runs in production builds with a valid API key
  */
 export const initializeAnalytics = () => {
-  // Skip analytics in development
-  if (IS_DEV || !posthog) {
-    console.log('Analytics disabled in development mode');
+  if (!posthog) {
     return;
   }
 
@@ -53,7 +41,7 @@ export const initializeAnalytics = () => {
  * Records when the user opens the application
  */
 export const trackAppOpen = () => {
-  if (IS_DEV || !posthog) return;
+  if (!posthog) return;
 
   posthog.capture('App Opened', {});
 };
@@ -65,7 +53,7 @@ export const trackAppOpen = () => {
  * @param count - The number of pushups logged
  */
 export const trackPushupLog = (count: number) => {
-  if (IS_DEV || !posthog) return;
+  if (!posthog) return;
 
   posthog.capture('Pushup Logged', {
     count,
@@ -80,7 +68,7 @@ export const trackPushupLog = (count: number) => {
  * @param additionalInfo - Optional additional context about the error
  */
 export const trackError = (error: Error, additionalInfo?: Record<string, any>) => {
-  if (IS_DEV || !posthog) return;
+  if (!posthog) return;
 
   posthog.capture('Error', {
     error_name: error.name,
