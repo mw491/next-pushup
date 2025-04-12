@@ -21,10 +21,7 @@
       "android": {
         "buildType": "apk"
       },
-      "channel": "production",
-      "env": {
-        "EXPO_PUBLIC_POSTHOG_API_KEY": "${EXPO_PUBLIC_POSTHOG_API_KEY}"
-      }
+      "channel": "production"
     }
   },
   "submit": {
