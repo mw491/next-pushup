@@ -1,4 +1,4 @@
-import { usePostHog } from 'posthog-react-native';
+import { PostHog } from 'posthog-react-native';
 
 // PostHog host URL - exported for use in the provider
 export const POSTHOG_HOST = "https://eu.i.posthog.com";
@@ -6,10 +6,15 @@ export const POSTHOG_HOST = "https://eu.i.posthog.com";
 // Export PostHog API key for use in the provider
 export const POSTHOG_API_KEY = process.env.EXPO_PUBLIC_POSTHOG_API_KEY;
 
-// Log analytics status in development
-if (__DEV__) {
-  console.log('PostHog analytics status:', POSTHOG_API_KEY ? 'enabled' : 'disabled (no API key)');
-}
+let posthogInstance: PostHog | null = null;
+
+export const initPostHog = (instance: PostHog) => {
+  if (!instance) {
+    return;
+  }
+
+  posthogInstance = instance;
+};
 
 /**
  * Track pushup log event
@@ -18,10 +23,9 @@ if (__DEV__) {
  * @param count - The number of pushups logged
  */
 export const trackPushupLog = (count: number) => {
-  const posthog = usePostHog();
-  if (!posthog) return;
+  if (!posthogInstance) return;
 
-  posthog.capture('Pushup Logged', {
+  posthogInstance.capture('Pushup Logged', {
     count,
   });
 };
@@ -34,13 +38,7 @@ export const trackPushupLog = (count: number) => {
  * @param additionalInfo - Optional additional context about the error
  */
 export const trackError = (error: Error, additionalInfo?: Record<string, any>) => {
-  const posthog = usePostHog();
-  if (!posthog) return;
+  if (!posthogInstance) return;
 
-  posthog.capture('Error', {
-    error_name: error.name,
-    error_message: error.message,
-    error_stack: error.stack,
-    ...additionalInfo,
-  });
+  posthogInstance.captureException(error, additionalInfo);
 };

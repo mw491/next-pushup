@@ -8,10 +8,10 @@ import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect } from "react";
 import { enableReactUse } from "@legendapp/state/config/enableReactUse";
 import { initializeNotifications } from "@/utils/notifications";
-import { trackError, POSTHOG_API_KEY, POSTHOG_HOST } from "@/utils/posthog";
+import { trackError, POSTHOG_API_KEY, POSTHOG_HOST, initPostHog } from "@/utils/posthog";
 import { store$ } from "@/utils/storage";
 import { use$ } from "@legendapp/state/react";
-import { PostHogProvider } from "posthog-react-native";
+import { PostHogProvider, usePostHog } from "posthog-react-native";
 
 // Enable legend-state React hooks
 enableReactUse();
@@ -41,18 +41,22 @@ if (typeof ErrorUtils !== 'undefined') {
   ErrorUtils.setGlobalHandler(errorHandler);
 }
 
-/**
- * Root layout component for the application
- * Handles initialization, theme setup, and navigation routing
- */
-export default function RootLayout() {
+function AppContent() {
   const colours = useColours();
   const router = useRouter();
   const segments = useSegments();
   const settings = use$(store$.settings);
+  const posthog = usePostHog();
   const [fontsLoaded] = useFonts({
     ZenDots: require("@/assets/fonts/ZenDots.ttf"),
   });
+
+  // Initialize PostHog as soon as possible
+  useEffect(() => {
+    if (posthog) {
+      initPostHog(posthog);
+    }
+  }, [posthog]);
 
   /**
    * Callback function to hide the splash screen once fonts are loaded
@@ -65,11 +69,11 @@ export default function RootLayout() {
     }
   }, [fontsLoaded]);
 
+  // Handle other initializations
   useEffect(() => {
     if (fontsLoaded) {
       // Initialize notifications when the app is loaded
       initializeNotifications();
-      // PostHog initialization is now handled by PostHogProvider
     }
   }, [fontsLoaded]);
 
@@ -90,6 +94,28 @@ export default function RootLayout() {
   }
 
   return (
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: colours.background,
+      }}
+      onLayout={onLayoutRootView}
+    >
+      <Slot />
+    </SafeAreaView>
+  );
+}
+
+/**
+ * Root layout component for the application
+ * Handles initialization, theme setup, and navigation routing
+ */
+export default function RootLayout() {
+  if (!POSTHOG_API_KEY) {
+    console.warn('PostHog API key is not set');
+  }
+
+  return (
     <PostHogProvider
       apiKey={POSTHOG_API_KEY}
       options={{
@@ -97,15 +123,7 @@ export default function RootLayout() {
       }}
     >
       <SafeAreaProvider>
-        <SafeAreaView
-          style={{
-            flex: 1,
-            backgroundColor: colours.background,
-          }}
-          onLayout={onLayoutRootView}
-        >
-          <Slot />
-        </SafeAreaView>
+        <AppContent />
       </SafeAreaProvider>
     </PostHogProvider>
   );
