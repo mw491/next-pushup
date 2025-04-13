@@ -151,11 +151,11 @@ export default function AddPushup() {
         ],
       });
 
-      // Track pushup log event
-      trackPushupLog(count);
-
       setCount(0);
       router.push("/");
+
+      // Track pushup log event
+      trackPushupLog(count);
     }
   };
 

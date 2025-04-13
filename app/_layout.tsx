@@ -8,9 +8,10 @@ import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect } from "react";
 import { enableReactUse } from "@legendapp/state/config/enableReactUse";
 import { initializeNotifications } from "@/utils/notifications";
-import { initializeAnalytics, trackError } from "@/utils/posthog";
+import { trackError, POSTHOG_API_KEY, POSTHOG_HOST } from "@/utils/posthog";
 import { store$ } from "@/utils/storage";
 import { use$ } from "@legendapp/state/react";
+import { PostHogProvider } from "posthog-react-native";
 
 // Enable legend-state React hooks
 enableReactUse();
@@ -66,9 +67,9 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (fontsLoaded) {
-      // Initialize notifications and analytics when the app is loaded
+      // Initialize notifications when the app is loaded
       initializeNotifications();
-      initializeAnalytics();
+      // PostHog initialization is now handled by PostHogProvider
     }
   }, [fontsLoaded]);
 
@@ -89,16 +90,23 @@ export default function RootLayout() {
   }
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView
-        style={{
-          flex: 1,
-          backgroundColor: colours.background,
-        }}
-        onLayout={onLayoutRootView}
-      >
-        <Slot />
-      </SafeAreaView>
-    </SafeAreaProvider>
+    <PostHogProvider
+      apiKey={POSTHOG_API_KEY}
+      options={{
+        host: POSTHOG_HOST,
+      }}
+    >
+      <SafeAreaProvider>
+        <SafeAreaView
+          style={{
+            flex: 1,
+            backgroundColor: colours.background,
+          }}
+          onLayout={onLayoutRootView}
+        >
+          <Slot />
+        </SafeAreaView>
+      </SafeAreaProvider>
+    </PostHogProvider>
   );
 }

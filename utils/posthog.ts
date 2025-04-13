@@ -1,50 +1,15 @@
-import { PostHog } from 'posthog-react-native';
-import * as Application from 'expo-application';
-import { Platform } from 'react-native';
-import Constants from 'expo-constants';
+import { usePostHog } from 'posthog-react-native';
 
-// PostHog API key from environment variables
-const POSTHOG_API_KEY = process.env.EXPO_PUBLIC_POSTHOG_API_KEY;
-const POSTHOG_HOST = "https://eu.i.posthog.com";
+// PostHog host URL - exported for use in the provider
+export const POSTHOG_HOST = "https://eu.i.posthog.com";
 
-// Initialize PostHog if API key is provided
-const posthog = !POSTHOG_API_KEY ? null : new PostHog(POSTHOG_API_KEY, { host: POSTHOG_HOST });
+// Export PostHog API key for use in the provider
+export const POSTHOG_API_KEY = process.env.EXPO_PUBLIC_POSTHOG_API_KEY;
 
 // Log analytics status in development
 if (__DEV__) {
   console.log('PostHog analytics status:', POSTHOG_API_KEY ? 'enabled' : 'disabled (no API key)');
 }
-
-/**
- * Initialize PostHog analytics
- * Sets up system information and tracks initial app open
- */
-export const initializeAnalytics = () => {
-  if (!posthog) {
-    return;
-  }
-
-  // Add system info to all events
-  posthog.register({
-    app_version: Application.nativeApplicationVersion,
-    build_version: Application.nativeBuildVersion,
-    platform: Platform.OS,
-    expo_version: Constants.expoVersion,
-  });
-
-  // Track app open event
-  trackAppOpen();
-};
-
-/**
- * Track app open event
- * Records when the user opens the application
- */
-export const trackAppOpen = () => {
-  if (!posthog) return;
-
-  posthog.capture('App Opened', {});
-};
 
 /**
  * Track pushup log event
@@ -53,6 +18,7 @@ export const trackAppOpen = () => {
  * @param count - The number of pushups logged
  */
 export const trackPushupLog = (count: number) => {
+  const posthog = usePostHog();
   if (!posthog) return;
 
   posthog.capture('Pushup Logged', {
@@ -68,6 +34,7 @@ export const trackPushupLog = (count: number) => {
  * @param additionalInfo - Optional additional context about the error
  */
 export const trackError = (error: Error, additionalInfo?: Record<string, any>) => {
+  const posthog = usePostHog();
   if (!posthog) return;
 
   posthog.capture('Error', {
