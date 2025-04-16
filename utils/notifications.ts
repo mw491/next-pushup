@@ -77,7 +77,7 @@ export async function initializeNotifications() {
 
   if (hasPermission) {
     const settings = store$.settings.get();
-    if (settings.sendReminder) {
+    if (settings.sendReminder && settings.onboardingCompleted) {
       await scheduleReminderNotification(settings.reminderTime);
     }
   }
