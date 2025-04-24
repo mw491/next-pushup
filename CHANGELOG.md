@@ -9,7 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 📦 **[APK]** - Requires downloading and installing a new APK
 - 🔄 **[OTA]** - Over-the-air update, automatically applied when opening the app
 
-## [1.0.0](https://github.com/mw491/next-pushup/releases/tag/v1.0.0) • 12/04/2024 • 📦 [APK](https://github.com/mw491/next-pushup/releases/tag/v1.0.0)
+## [1.1.0](https://github.com/mw491/next-pushup/compare/v1.0.0...v1.1.0) - 24/04/2025 • 📦 [APK](https://github.com/mw491/next-pushup/releases/tag/v1.1.0)
+
+### Added
+- Daily goal tracking for each individual day
+- Data migration system to ensure backward compatibility
+
+### Technical
+- Added schema versioning to support future data structure changes
+- Improved daily goal handling in settings to update today's record when changed
+
+## [1.0.0](https://github.com/mw491/next-pushup/releases/tag/v1.0.0) • 12/04/2025 • 📦 [APK](https://github.com/mw491/next-pushup/releases/tag/v1.0.0)
 
 ### Added
 - Initial release of NEXT PUSHUP
@@ -33,7 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Template for future updates
 
-## [x.y.z] • YYYY-MM-DD • 📦 [APK] or 🔄 [OTA]
+## [x.y.z] • DD/MM/YYYY • 📦 [APK] or 🔄 [OTA]
 
 ### Added
 - New features that have been added

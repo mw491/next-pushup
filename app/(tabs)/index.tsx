@@ -4,6 +4,7 @@ import TodayPushups from "@/components/TodayPushups";
 import Stat from "@/components/Stat";
 import { store$ } from "@/utils/storage";
 import { use$ } from "@legendapp/state/react";
+import WeekPerformance from "@/components/WeekPerformance";
 
 /**
  * Home screen of the application
@@ -103,6 +104,7 @@ export default function Index() {
         goalReached={goalReached}
         remainingPushups={remainingPushups}
       />
+      <WeekPerformance />
       <View style={{ flexDirection: "row", gap: 10 }}>
         <View style={{ flex: 1 }}>
           <Stat label="personal best" value={personalBest} />

@@ -3,7 +3,7 @@ const IS_DEV = process.env.APP_VARIANT === "development";
 export default {
   name: IS_DEV ? "NEXT PUSHUP (DEV)" : "NEXT PUSHUP",
   slug: "next-pushup",
-  version: "1.0.0",
+  version: "1.1.0",
   orientation: "portrait",
   icon: "./assets/images/icon.png",
   scheme: "myapp",
@@ -38,7 +38,12 @@ export default {
   notification: {
     icon: "./assets/images/adaptive-icon.png",
   },
-  plugins: ["expo-router", "expo-splash-screen", "expo-font", "expo-localization"],
+  plugins: [
+    "expo-router",
+    "expo-splash-screen",
+    "expo-font",
+    "expo-localization",
+  ],
   experiments: {
     typedRoutes: true,
   },
