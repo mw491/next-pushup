@@ -9,6 +9,7 @@ describe('Store Operations', () => {
       dailyGoal: 30,
       sendReminder: true,
       reminderTime: '12:00',
+      onboardingCompleted: false,
     });
   });
 
@@ -17,17 +18,22 @@ describe('Store Operations', () => {
       const newEntry = {
         date: '01/05/2023',
         sets: [{ pushups: 10, time: '10:00' }],
+        dailyGoal: 30,
       };
 
       store$.addPushup(newEntry);
 
-      expect(store$.pushups.get()).toEqual([newEntry]);
+      expect(store$.pushups.get()).toEqual([{
+        ...newEntry,
+        dailyGoal: 30,
+      }]);
     });
 
     it('should append sets to an existing date', () => {
       const existingEntry = {
         date: '01/05/2023',
         sets: [{ pushups: 10, time: '10:00' }],
+        dailyGoal: 30,
       };
 
       store$.pushups.set([existingEntry]);
@@ -35,6 +41,7 @@ describe('Store Operations', () => {
       const newSet = {
         date: '01/05/2023',
         sets: [{ pushups: 15, time: '14:00' }],
+        dailyGoal: 30,
       };
 
       store$.addPushup(newSet);
@@ -46,6 +53,7 @@ describe('Store Operations', () => {
             { pushups: 10, time: '10:00' },
             { pushups: 15, time: '14:00' },
           ],
+          dailyGoal: 30,
         },
       ]);
     });
@@ -60,6 +68,7 @@ describe('Store Operations', () => {
             { pushups: 10, time: '10:00' },
             { pushups: 15, time: '14:00' },
           ],
+          dailyGoal: 30,
         },
         {
           date: '02/05/2023',
@@ -67,6 +76,7 @@ describe('Store Operations', () => {
             { pushups: 12, time: '09:00' },
             { pushups: 18, time: '15:00' },
           ],
+          dailyGoal: 30,
         },
       ]);
 
@@ -89,10 +99,12 @@ describe('Store Operations', () => {
             { pushups: 10, time: '10:00' },
             { pushups: 15, time: '14:00' },
           ],
+          dailyGoal: 30,
         },
         {
           date: '01/05/2023',
           sets: [{ pushups: 12, time: '09:00' }],
+          dailyGoal: 30,
         },
       ]);
 
@@ -104,6 +116,7 @@ describe('Store Operations', () => {
         {
           date: '01/05/2023',
           sets: [{ pushups: 10, time: '10:00' }],
+          dailyGoal: 30,
         },
       ]);
 
@@ -117,6 +130,7 @@ describe('Store Operations', () => {
         dailyGoal: 50,
         sendReminder: false,
         reminderTime: '08:00',
+        onboardingCompleted: false,
       };
 
       store$.updateSettings(newSettings);
@@ -132,6 +146,7 @@ describe('Store Operations', () => {
         {
           date: '01/05/2023',
           sets: [{ pushups: 10, time: '10:00' }],
+          dailyGoal: 30,
         },
       ]);
 
@@ -139,6 +154,8 @@ describe('Store Operations', () => {
         dailyGoal: 50,
         sendReminder: false,
         reminderTime: '08:00',
+        onboardingCompleted: false,
+        schemaVersion: 1,
       });
 
       store$.clearAllData();
@@ -148,6 +165,8 @@ describe('Store Operations', () => {
         dailyGoal: 30,
         sendReminder: true,
         reminderTime: '12:00',
+        schemaVersion: 1,
+        onboardingCompleted: false,
       });
     });
   });

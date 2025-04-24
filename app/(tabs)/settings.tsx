@@ -27,6 +27,7 @@ import {
 const Settings = () => {
   const settings = use$(store$.settings);
   const [showTimePicker, setShowTimePicker] = useState(false);
+  const [goalInput, setGoalInput] = useState(settings.dailyGoal.toString());
   const colours = useColours();
 
   const styles = StyleSheet.create({
@@ -113,6 +114,43 @@ const Settings = () => {
   });
 
   /**
+   * Handle updating the daily goal in the store and today's record
+   * Only called when input loses focus or is submitted
+   */
+  const updateDailyGoal = () => {
+    const newGoal = parseInt(goalInput, 10);
+    if (isNaN(newGoal) || newGoal === settings.dailyGoal) {
+      // Reset input to current setting if invalid or unchanged
+      setGoalInput(settings.dailyGoal.toString());
+      return;
+    }
+
+    store$.updateSettings({
+      ...settings,
+      dailyGoal: newGoal,
+    });
+
+    // Update today's goal if a record exists
+    const today = new Date().toLocaleDateString("en-GB");
+    const currentPushups = store$.pushups.get();
+    const todayIndex = currentPushups.findIndex(
+      (entry) => entry.date === today
+    );
+
+    if (todayIndex !== -1) {
+      const updatedPushups = currentPushups.map((entry, index) =>
+        index === todayIndex
+          ? {
+              ...entry,
+              dailyGoal: newGoal,
+            }
+          : entry
+      );
+      store$.pushups.set(updatedPushups);
+    }
+  };
+
+  /**
    * Handle time selection from the time picker
    * Updates the reminder time in settings and reschedules notifications
    *
@@ -143,13 +181,10 @@ const Settings = () => {
             <TextInput
               style={styles.input}
               keyboardType="number-pad"
-              value={settings.dailyGoal.toString()}
-              onChangeText={(text) =>
-                store$.updateSettings({
-                  ...settings,
-                  dailyGoal: parseInt(text, 10),
-                })
-              }
+              value={goalInput}
+              onChangeText={setGoalInput}
+              onBlur={updateDailyGoal}
+              onSubmitEditing={updateDailyGoal}
             />
           </View>
         </Card>

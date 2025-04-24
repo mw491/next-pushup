@@ -149,6 +149,7 @@ export default function AddPushup() {
             time,
           },
         ],
+        dailyGoal: store$.settings.get().dailyGoal,
       });
 
       setCount(0);

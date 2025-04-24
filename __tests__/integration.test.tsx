@@ -36,6 +36,7 @@ describe("Integration Tests", () => {
         { pushups: 10, time: "10:00" },
         { pushups: 15, time: "14:00" },
       ],
+      dailyGoal: 30,
     },
   ];
 
@@ -50,6 +51,7 @@ describe("Integration Tests", () => {
           dailyGoal: 30,
           sendReminder: true,
           reminderTime: "12:00",
+          onboardingCompleted: false,
         };
       }
       return selector;
@@ -69,6 +71,7 @@ describe("Integration Tests", () => {
         {
           date: "02/05/2023",
           sets: [{ pushups: 20, time: "09:00" }],
+          dailyGoal: 30,
         },
       ];
 
@@ -129,6 +132,7 @@ describe("Integration Tests", () => {
             { pushups: 15, time: "14:00" },
             { pushups: 5, time: "16:00" },
           ],
+          dailyGoal: 30,
         },
       ];
 
