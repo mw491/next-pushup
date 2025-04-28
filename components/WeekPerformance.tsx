@@ -10,6 +10,7 @@ import {
   isSameDay,
   getDay,
   subDays,
+  isAfter,
 } from "date-fns";
 import { FontAwesome5 } from "@expo/vector-icons";
 import useColours from "@/utils/colours";
@@ -131,6 +132,9 @@ const WeekPerformance = observer(() => {
     dayNotMet: {
       backgroundColor: colours.background,
     },
+    dayFuture: {
+      opacity: 0.4,
+    },
     dayTextBase: {
       fontSize: 14,
       fontFamily: "ZenDots",
@@ -158,6 +162,7 @@ const WeekPerformance = observer(() => {
       </View>
       <View style={styles.daysContainer}>
         {weeklyPerformance.map((day, index) => {
+          const isFutureDay = isAfter(day.date, today);
           const dayStyle = [
             styles.dayBase,
             day.isToday ? styles.dayToday : null,
@@ -166,6 +171,7 @@ const WeekPerformance = observer(() => {
               : day.isToday
               ? null
               : styles.dayNotMet,
+            isFutureDay ? styles.dayFuture : null,
           ];
           const textStyle = [
             styles.dayTextBase,

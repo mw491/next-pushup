@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 📦 **[APK]** - Requires downloading and installing a new APK
 - 🔄 **[OTA]** - Over-the-air update, automatically applied when opening the app
 
+## [1.1.0-patch1](https://github.com/mw491/next-pushup/compare/v1.1.0...v1.1.0-patch1) - 28/04/2025 • 🔄 [OTA]
+  ### Added
+  - Opacity to distinguish between future days in the week performance component
+
 ## [1.1.0](https://github.com/mw491/next-pushup/compare/v1.0.0...v1.1.0) - 24/04/2025 • 📦 [APK](https://github.com/mw491/next-pushup/releases/tag/v1.1.0)
 
 ### Added
